@@ -10,6 +10,7 @@ import Productinfo from './Productinfo'
 import Profile from './Profile'
 import CartPage from './Cart'
 import Checkout from './Checkout'
+import Success from './Success'
 function Routess() {
   return (
     <>
@@ -24,6 +25,7 @@ function Routess() {
         <Route path='/profile' element={<Profile />} />
         <Route path='/cart' element={<CartPage />} />
         <Route path='/checkout' element={<Checkout />} />
+        <Route path='/success' element={<Success />} />
       </Routes>
     </>
   )

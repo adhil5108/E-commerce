@@ -131,8 +131,7 @@ function cart(product) {
               paddingRight: "10px",
               border: "none"
             }}
-            onChange={handleSort}
-          >
+            onChange={handleSort}>
             <option value="low-high">Price: Low to High</option>
             <option value="high-low">Price: High to Low</option>
             <option value="default">Default</option>
@@ -148,8 +147,7 @@ function cart(product) {
             flexWrap: "wrap",
             justifyContent: "center",
             marginTop: "40px",
-          }}
-        >
+          }}>
           {displayProducts.length > 0 ? (
             displayProducts.map((product, index) => (
               <div
@@ -165,8 +163,7 @@ function cart(product) {
                     "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
                   display: "flex",
                   flexDirection: "column",
-                }}
-              >
+                }}>
                 <img
                   src={product.image}
                   alt={product.title}
@@ -176,16 +173,14 @@ function cart(product) {
                     objectFit: "cover",
                     borderTopLeftRadius: "12px",
                     borderTopRightRadius: "12px",
-                  }}
-                />
+                  }}/>
                 <div style={{ padding: "15px", flexGrow: 1 }}>
                   <h3
                     style={{
                       margin: "10px 0 5px",
                       fontWeight: "bold",
                       fontSize: "1.3rem",
-                    }}
-                  >
+                    }}>
                     {product.title}
                   </h3>
                   <h4
@@ -194,8 +189,7 @@ function cart(product) {
                       fontWeight: "600",
                       color: "#555",
                       fontStyle: "italic",
-                    }}
-                  >
+                    }}>
                     {product.brand}
                   </h4>
                   <p
@@ -206,8 +200,7 @@ function cart(product) {
                       overflow: "hidden",
                       textOverflow: "ellipsis",
                       marginBottom: "15px",
-                    }}
-                  >
+                    }}>
                     {product.description}
                   </p>
                   <p
@@ -215,8 +208,7 @@ function cart(product) {
                       fontWeight: "bold",
                       color: "#2c7a2c",
                       fontSize: "1.2rem",
-                    }}
-                  >
+                    }}>
                     ${product.price}
                   </p>
                 </div>
@@ -225,8 +217,7 @@ function cart(product) {
                     display: "flex",
                     gap: "15px",
                     padding: "0 15px 15px",
-                  }}
-                >
+                  }}>
                   <button
                     style={{
                       flex: 1,
@@ -238,8 +229,7 @@ function cart(product) {
                       fontWeight: "bold",
                       cursor: "pointer",
                     }}
-                    onClick={()=>cart(product)}
-                  >
+                    onClick={()=>cart(product)}>
                     Add to cart
                   </button>
 
@@ -253,8 +243,7 @@ function cart(product) {
                       borderRadius: "5px",
                       fontWeight: "bold",
                       cursor: "pointer",
-                    }}
-                  >
+                    }}>
                     <NavLink to={`/allcollection/${product.id}`} style={{ textDecoration: "none", color: "white" }} >View more</NavLink>
 
                   </button>
@@ -269,7 +258,7 @@ function cart(product) {
       </section>
       <Footer />
     </>
-  );
+  )
 }
 
 export default Allcollections;

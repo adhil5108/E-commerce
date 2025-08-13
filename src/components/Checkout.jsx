@@ -1,22 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import Navbar from './navbar';
-import Footer from './Footer';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react'
+import Navbar from './navbar'
+import Footer from './Footer'
+import axios from 'axios'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { useNavigate } from 'react-router-dom'
 
 function Checkout() {
-  let [data, setData] = useState([]);
+    let navigate=useNavigate()
+  let [data, setData] = useState([])
 
   useEffect(() => {
     axios.get('http://localhost:4000/cart')
       .then(res => setData(res.data))
-      .catch(err => console.error(err));
+      .catch(err => console.error(err))
   }, []);
 
-  let data1 = data.filter((e) => e.userid === localStorage.getItem("id"));
+  let data1 = data.filter((e) => e.userid === localStorage.getItem("id"))
 
   let total = data1.reduce((s, i) => {
-    return s + (i.price * (i.quantity));
-  }, 0);
+    return s + (i.price * (i.quantity))
+  }, 0)
+
+  
+  function handlePlaceOrder (){
+    data1.forEach((item )=> {
+      axios.post('http://localhost:4000/orders',item)
+      .then(()=>{axios.delete(`http://localhost:4000/cart/${item.id}`)})
+     
+        .catch(err => console.error(err))
+    });
+
+    setData([]); 
+
+    toast.success("✅ Order placed successfully!", {
+      position: "top-center",
+      autoClose: 2000,
+      onClose:()=>navigate('/success')
+    })
+    
+  }
 
   return (
     <>
@@ -44,9 +67,8 @@ function Checkout() {
             alignItems: "center",
             justifyContent: "space-between",
             padding: "20px",
-            borderBottom: "1px solid #ddd"
+            borderBottom: "1px solid #030303ff"
           }}>
-            {/* Product Info */}
             <div style={{ display: "flex", alignItems: "center" }}>
               <img src={ele.image} alt="" style={{
                 height: "100px",
@@ -61,15 +83,12 @@ function Checkout() {
                 </p>
               </div>
             </div>
-
-            {/* Subtotal */}
             <h3 style={{ color: "#333" }}>
-              ${(ele.price * ele.quantity).toFixed(2)}
+              ${(ele.price * ele.quantity)}
             </h3>
           </div>
         ))}
 
-        {/* Total & Checkout Button */}
         <div style={{
           display: "flex",
           justifyContent: "flex-end",
@@ -77,30 +96,32 @@ function Checkout() {
           marginTop: "30px"
         }}>
           <h2 style={{ marginRight: "20px", fontWeight: "600" }}>
-            Total: ${total.toFixed(2)}
+            Total: ${total}
           </h2>
-          <button style={{
-            padding: "12px 25px",
-            backgroundColor: "#000",
-            color: "#fff",
-            border: "none",
-            borderRadius: "8px",
-            cursor: "pointer",
-            fontSize: "16px",
-            fontWeight: "500",
-            transition: "0.3s"
-          }}
-            onMouseOver={(e) => e.target.style.backgroundColor = "#444"}
-            onMouseOut={(e) => e.target.style.backgroundColor = "#000"}
+          <button
+            onClick={handlePlaceOrder}
+            style={{
+              padding: "12px 25px",
+              backgroundColor: "#000",
+              color: "#fff",
+              border: "none",
+              borderRadius: "8px",
+              cursor: "pointer",
+              fontSize: "16px",
+              fontWeight: "500",
+              transition: "0.3s"
+            }}
+          
           >
             Place Order
           </button>
         </div>
       </div>
 
+      <ToastContainer />
       <Footer />
     </>
-  );
+  )
 }
 
-export default Checkout;
+export default Checkout

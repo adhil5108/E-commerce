@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react"
+import axios from "axios"
 import Navbar from './navbar'
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"
 
 function CartPage() {
   let [data, setData] = useState([])
@@ -37,7 +37,7 @@ function CartPage() {
       .then(() => {
         setData(prev =>
           prev.map(e => (e.id === item.id ? { ...e, quantity: update } : e))
-        );
+        )
       })
       .catch(err => console.error(err));
   }
@@ -51,9 +51,9 @@ function CartPage() {
       <Navbar />
       <div style={{ margin: "100px 0px 0px 0px" }}>
         {data1.length === 0 ? (
-          <div>
+          <div >
             <h2>Your cart is empty</h2>
-            <p>Add something awesome to your cart!</p>
+            <p>Add something to your cart!</p>
           </div>
         ) : (
           data1.map((e, i) => {
@@ -127,6 +127,7 @@ function CartPage() {
                       borderRadius: "4px",
                       border: "1px solid #ccc",
                     }}
+                    readOnly
                   />
                   <button
                     style={{
