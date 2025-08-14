@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import axios from 'axios';
-import { useNavigate, NavLink } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom'
 import './register.css'
 
 
@@ -11,10 +11,10 @@ function Register() {
     email: '',
     phone: '',
     password: '',
-  });
+  })
 
-  const [errors, setErrors] = useState({});
-  const navigate = useNavigate();
+  const [errors, setErrors] = useState({})
+  const navigate = useNavigate()
 
   function handleChange(e) {
     setData(prev => ({
@@ -24,29 +24,29 @@ function Register() {
   }
 
   function validate(data) {
-    const errors = {};
+    const errors = {}
 
-    if (!data.name.trim()) errors.name = 'Name is required';
+    if (data.name.length===0) errors.name = 'Name is required'
 
-    if (!data.age.trim()) errors.age = 'Age is required';
-    else if (data.age * 1 <= 0) errors.age = 'Invalid number';
+    if (data.age.length===0) errors.age = 'Age is required'
+    else if (data.age * 1 <= 15) errors.age = 'have to be 15 to login '
 
-    if (!data.email.trim()) errors.email = 'Email is required';
-    else if (!data.email.includes('@') || !data.email.includes('.')) errors.email = 'Invalid email';
+    if (data.email.length===0) errors.email = 'Email is required'
+    else if (!data.email.includes('@') || !data.email.includes('.')) errors.email = 'Invalid email'
 
-    if (!data.phone.trim()) errors.phone = 'Phone number is required';
-    else if (data.phone.length !== 10) errors.phone = 'Phone number must be exactly 10 digits';
+    if (data.phone.length===0) errors.phone = 'Phone number is required';
+    else if (data.phone.length !== 10) errors.phone = 'Phone number must be exactly 10 digits'
 
-    if (!data.password) errors.password = 'Password is required';
-    else if (data.password.length < 6) errors.password = 'Password must be at least 6 characters';
+    if (!data.password) errors.password = 'Password is required'
+    else if (data.password.length < 6) errors.password = 'Password must be at least 6 characters'
 
     return errors;
   }
 
   function submit(e) {
-    e.preventDefault();
-    const validationErrors = validate(Data);
-    setErrors(validationErrors);
+    e.preventDefault()
+    const validationErrors = validate(Data)
+    setErrors(validationErrors)
 
     if (Object.keys(validationErrors).length === 0) {
       axios
@@ -64,7 +64,7 @@ function Register() {
         .catch(err => {
           console.log(err);
         });
-      navigate('/login');
+      navigate('/login')
     }
   }
 

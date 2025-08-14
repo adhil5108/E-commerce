@@ -25,13 +25,13 @@ function CartPage() {
   }
 
   let data1 = data.filter((e) => {
-    return e.userid === localStorage.getItem("id")
+    return e.userid == localStorage.getItem("id")
   })
 
   const checkout = data1.reduce((acc, item) => acc + item.price * item.quantity, 0)
 
   function count(item, update) {
-    if (update < 1) return;
+    if (update < 1) return
 
     axios.patch(`http://localhost:4000/cart/${item.id}`, { quantity: update })
       .then(() => {

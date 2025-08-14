@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
 import { FaSearch } from "react-icons/fa"
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import Footer from './Footer'
 import Navbar from './navbar'
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-
+import { FaHeart } from "react-icons/fa"
+import { ToastContainer } from "react-toastify"
 
 function Allcollections() {
   const [data, setData] = useState([])
@@ -33,9 +34,8 @@ function Allcollections() {
   function click() {
     setSearched(true);
     const search = data.filter(
-      (p) =>
-        p.title.toLowerCase().includes(idata.toLowerCase()) ||   p.brand.toLowerCase().includes(idata.toLowerCase())
-       )
+      (p) => p.title.toLowerCase().includes(idata.toLowerCase()) || p.brand.toLowerCase().includes(idata.toLowerCase())
+    )
     setnewData(search)
   }
 
@@ -50,25 +50,65 @@ function Allcollections() {
     } else if (value === "high-low") {
       sortedProducts.sort((a, b) => b.price - a.price)
     } else {
-      sortedProducts =  data
+      sortedProducts = data
     }
 
     setnewData(sortedProducts)
     setSearched(true)
   }
 
-function cart(product) {
-  axios.post('http://localhost:4000/cart', { ...product,quantity:1, userid: localStorage.getItem("id") })
-    .then(() => {
-      toast.success(`${product.title} added to cart! 🛒`)
-    })
-    .catch(err => {console.error(err)})
-}
+  function cart(product) {
+    const userId = localStorage.getItem("id")
 
+    axios.get(`http://localhost:4000/cart?userid=${userId}&id=${product.id}`)
+      .then((res) => {
+        if (res.data.length > 0) {
+          toast.info(`${product.title} is already in your cart 🛒`)
+        } else {
+          axios.post('http://localhost:4000/cart', { ...product, quantity: 1, userid: userId })
+            .then(() => {
+              toast.success(`${product.title} added to cart! 🛒`)
+            })
+            .catch(err => {
+              console.error(err)
+            })
+        }
+      })
+      .catch(err => {
+        console.error(err)
+        toast.error("Error checking cart")
+      })
+  }
+  function wish(product) {
+    const userId = localStorage.getItem("id")
+
+    axios.get(`http://localhost:4000/wishlist?userid=${userId}&id=${product.id}`)
+      .then((res) => {
+        if (res.data.length > 0) {
+          toast.info(`${product.title} is already in your wishlist ❤️`)
+        } else {
+          axios.post('http://localhost:4000/wishlist', { ...product, userid: userId })
+            .then(() => {
+              toast.success(`${product.title} added to wishlist! ❤️`, {
+                position: "top-right",
+                style: { marginTop: "30px" }
+              })
+            })
+            .catch(err => {
+              console.error(err)
+
+            })
+        }
+      })
+      .catch(err => {
+        console.error(err)
+
+      })
+  }
 
   return (
     <>
-    <Navbar/>
+      <Navbar />
       <section
         style={{
           marginTop: "100px",
@@ -94,7 +134,7 @@ function cart(product) {
             }}
             onChange={inputstore}
             onKeyDown={(e) => {
-              if (e.key="Enter" || e.key === "Enter") {
+              if (e.key = "Enter" || e.key === "Enter") {
                 click()
               }
 
@@ -163,6 +203,7 @@ function cart(product) {
                     "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
                   display: "flex",
                   flexDirection: "column",
+                  position: "relative"
                 }}>
                 <img
                   src={product.image}
@@ -173,7 +214,31 @@ function cart(product) {
                     objectFit: "cover",
                     borderTopLeftRadius: "12px",
                     borderTopRightRadius: "12px",
-                  }}/>
+                  }} />
+                <FaHeart
+                  style={{
+                    position: "absolute",
+                    top: "10px",
+                    right: "10px",
+                    color: "white",
+                    fontSize: "20px",
+                    cursor: "pointer",
+                  }}
+                  onClick={localStorage.getItem("id") ? () => wish(product) : () => toast.info(
+                    <div>
+                      Please log in first!{" "}
+                      <NavLink
+                        to="/login"
+                        style={{
+                          color: "#B29700",
+                          textDecoration: "underline",
+                          cursor: "pointer",
+                        }}>
+                        Login
+                      </NavLink>
+                    </div>
+                  )}
+                />
                 <div style={{ padding: "15px", flexGrow: 1 }}>
                   <h3
                     style={{
@@ -229,7 +294,20 @@ function cart(product) {
                       fontWeight: "bold",
                       cursor: "pointer",
                     }}
-                    onClick={()=>cart(product)}>
+                    onClick={localStorage.getItem("id") ? () => cart(product) : () => toast.info(
+                      <div>
+                        Please log in first!{" "}
+                        <NavLink
+                          to="/login"
+                          style={{
+                            color: "#B29700",
+                            textDecoration: "underline",
+                            cursor: "pointer",
+                          }}>
+                          Login
+                        </NavLink>
+                      </div>
+                    )}>
                     Add to cart
                   </button>
 
@@ -257,6 +335,8 @@ function cart(product) {
 
       </section>
       <Footer />
+      <ToastContainer position="top-right"
+        style={{ top: "80px" }} />
     </>
   )
 }

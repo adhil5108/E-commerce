@@ -31,16 +31,18 @@ function Navbar() {
             padding: "16px 24px",
           }}
         >
-          <div
+          <NavLink
+          to={'/'}
             style={{
               fontFamily: "serif",
               fontSize: "2rem",
               fontWeight: "bold",
+              textDecoration:"none",
               color: "#2E2E2E",
             }}
           >
             TimeLux
-          </div>
+          </NavLink>
 
           <nav style={{ display: "flex", gap: "32px" }}>
             <NavLink
@@ -103,13 +105,11 @@ function Navbar() {
               color: "#2E2E2E",
               fontSize: "1.1rem",
               alignItems: "center",
-            }}
-          >
-        
-                   <div
+            }}>
+         <div
               onClick={() => {
                 if (logged) {
-                  navigate("/");
+                  navigate("/wishlist");
                 } else {
                   toast.info(
                     <div>
@@ -120,8 +120,7 @@ function Navbar() {
                           color: "#B29700",
                           textDecoration: "underline",
                           cursor: "pointer",
-                        }}
-                      >
+                        }}>
                         Login
                       </NavLink>
                     </div>
@@ -132,8 +131,7 @@ function Navbar() {
                 color: "#2E2E2E",
                 transition: "color 0.3s ease",
                 cursor: "pointer",
-              }}
-            >
+              }}>
               <FaHeart />
             </div>
 
@@ -151,8 +149,7 @@ function Navbar() {
                           color: "#B29700",
                           textDecoration: "underline",
                           cursor: "pointer",
-                        }}
-                      >
+                        }}>
                         Login
                       </NavLink>
                     </div>
@@ -163,14 +160,13 @@ function Navbar() {
                 color: "#2E2E2E",
                 transition: "color 0.3s ease",
                 cursor: "pointer",
-              }}
-            >
+              }}>
               <FaShoppingCart />
             </div>
             <div
               onClick={() => {
                 if (logged) {
-                  navigate("/profile");
+                  navigate("/profile")
                 } else {
                   toast.info(
                     <div>
@@ -181,20 +177,18 @@ function Navbar() {
                           color: "#B29700",
                           textDecoration: "underline",
                           cursor: "pointer",
-                        }}
-                      >
+                        }}>
                         Login
                       </NavLink>
                     </div>
-                  );
+                  )
                 }
               }}
               style={{
                 color: "#2E2E2E",
                 transition: "color 0.3s ease",
                 cursor: "pointer",
-              }}
-            >
+              }}>
               <FaUserPlus />
             </div>
           </div>

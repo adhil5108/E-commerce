@@ -6,11 +6,11 @@ import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 function Productinfo() {
   let { productid } = useParams()
-  
+
   const [data, setData] = useState({})
   const [loading, setLoading] = useState(true)
 
-console.log(productid)
+  console.log(productid)
 
   useEffect(() => {
     setLoading(true);
@@ -26,122 +26,114 @@ console.log(productid)
       });
   }, [productid])
 
-  if (loading) {
-    return (
-      <div style={{ textAlign: "center", padding: "50px", fontSize: "18px" }}>
-        Loading product details...
-      </div>
-    );
+
+  function cart(product) {
+    const userId = localStorage.getItem("id");
+
+
+    axios.get(`http://localhost:4000/cart?userid=${userId}&id=${product.id}`)
+      .then((res) => {
+        if (res.data.length > 0) {
+
+          toast.info(`${product.title} is already in your cart!`);
+        } else {
+
+          axios.post('http://localhost:4000/cart', { ...product, quantity: 1, userid: userId })
+            .then(() => {
+              toast.success(`${product.title} added to cart! 🛒`);
+            })
+            .catch(err => {
+              console.error(err);
+              toast.error("Failed to add to cart.");
+            });
+        }
+      })
+      .catch(err => {
+        console.error("Error checking cart:", err)
+      });
   }
 
-function cart(product) {
-  const userId = localStorage.getItem("id");
-
-  // First, check if product already exists in the cart for this user
-  axios.get(`http://localhost:4000/cart?userid=${userId}&id=${product.id}`)
-    .then((res) => {
-      if (res.data.length > 0) {
-        // Product already in cart — show a message or update quantity
-        toast.info(`${product.title} is already in your cart!`);
-      } else {
-        // Not in cart, so add it
-        axios.post('http://localhost:4000/cart', { ...product, quantity: 1, userid: userId })
-          .then(() => {
-            toast.success(`${product.title} added to cart! 🛒`);
-          })
-          .catch(err => {
-            console.error(err);
-            toast.error("Failed to add to cart.");
-          });
-      }
-    })
-    .catch(err => {
-      console.error("Error checking cart:", err);
-      toast.error("Something went wrong.");
-    });
-}
-
   return (
-    <><Navbar/>
-    <div
-      style={{
-        fontFamily: "sans-serif",
-        background: "#f5f5f5",
-        minHeight: "100vh",
-        padding: "40px 20px",
-        marginTop:"100px"
-      }}
-    >
+    <><Navbar />
       <div
         style={{
-          maxWidth: "900px",
-          margin: "auto",
-          background: "#fff",
-          borderRadius: "12px",
-          boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
-          overflow: "hidden",
-          display: "flex",
-          flexWrap: "wrap",
+          fontFamily: "sans-serif",
+          background: "#f5f5f5",
+          minHeight: "100vh",
+          padding: "40px 20px",
+          marginTop: "100px"
         }}
       >
-       
         <div
           style={{
-            flex: "1 1 300px",
+            maxWidth: "900px",
+            margin: "auto",
+            background: "#fff",
+            borderRadius: "12px",
+            boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+            overflow: "hidden",
             display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "20px",
+            flexWrap: "wrap",
           }}
         >
-          <img
-            src={data.image}
-            alt={data.title}
-            style={{
-              width: "100%",
-              maxWidth: "300px",
-              borderRadius: "8px",
-              objectFit: "contain",
-            }}
-          />
-        </div>
 
-        <div style={{ flex: "1 1 500px", padding: "20px 30px" }}>
-          <h1 style={{ fontSize: "28px", marginBottom: "10px" }}>{data.title}</h1>
-          <h3 style={{ color: "#777", marginBottom: "15px" }}>{data.brand}</h3>
-          <h2
+          <div
             style={{
-              color: "#e67e22",
-              marginBottom: "20px",
+              flex: "1 1 300px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "20px",
             }}
           >
-            ${data.price.toLocaleString()}
-          </h2>
-          <p style={{ marginBottom: "20px", lineHeight: "1.6" }}>
-            {data.description}
-          </p>
+            <img
+              src={data.image}
+              alt={data.title}
+              style={{
+                width: "100%",
+                maxWidth: "300px",
+                borderRadius: "8px",
+                objectFit: "contain",
+              }}
+            />
+          </div>
 
-          <h3 style={{ marginBottom: "10px" }}>About This Watch</h3>
-          <p style={{ marginBottom: "30px", lineHeight: "1.6" }}>
-            A premium watch is the perfect harmony of art and engineering, crafted for those who value both beauty and precision. Every curve, dial, and movement tells a story of heritage and craftsmanship, often built by master watchmakers who dedicate countless hours to perfection. Made with the finest materials — from sapphire crystal to polished stainless steel and rare leathers — it’s more than an accessory; it’s a legacy you wear on your wrist. A premium watch doesn’t just mark time, it elevates it, turning every second into a statement of sophistication.
-          </p>
+          <div style={{ flex: "1 1 500px", padding: "20px 30px" }}>
+            <h1 style={{ fontSize: "28px", marginBottom: "10px" }}>{data.title}</h1>
+            <h3 style={{ color: "#777", marginBottom: "15px" }}>{data.brand}</h3>
+            <h2
+              style={{
+                color: "#e67e22",
+                marginBottom: "20px",
+              }}
+            >
+              ${data.price}
+            </h2>
+            <p style={{ marginBottom: "20px", lineHeight: "1.6" }}>
+              {data.description}
+            </p>
 
-          <button
-            style={{
-              padding: "12px 24px",
-              background: "#e67e22",
-              color: "#fff",
-              border: "none",
-              borderRadius: "6px",
-              cursor: "pointer",
-              fontSize: "16px",
-            }}
-           onClick={()=>cart(data)} >
-            Add to Cart
-          </button>
+            <h3 style={{ marginBottom: "10px" }}>About This Watch</h3>
+            <p style={{ marginBottom: "30px", lineHeight: "1.6" }}>
+              A premium watch is the perfect harmony of art and engineering, crafted for those who value both beauty and precision. Every curve, dial, and movement tells a story of heritage and craftsmanship, often built by master watchmakers who dedicate countless hours to perfection. Made with the finest materials — from sapphire crystal to polished stainless steel and rare leathers — it’s more than an accessory; it’s a legacy you wear on your wrist. A premium watch doesn’t just mark time, it elevates it, turning every second into a statement of sophistication.
+            </p>
+
+            <button
+              style={{
+                padding: "12px 24px",
+                background: "#e67e22",
+                color: "#fff",
+                border: "none",
+                borderRadius: "6px",
+                cursor: "pointer",
+                fontSize: "16px",
+              }}
+              onClick={() => cart(data)} >
+              Add to Cart
+            </button>
+          </div>
         </div>
-      </div>
-    </div></>
+      </div></>
   );
 }
 

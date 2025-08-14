@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { useNavigate } from 'react-router-dom'
 
 function Checkout() {
-    let navigate=useNavigate()
+  let navigate = useNavigate()
   let [data, setData] = useState([])
 
   useEffect(() => {
@@ -16,29 +16,30 @@ function Checkout() {
       .catch(err => console.error(err))
   }, []);
 
-  let data1 = data.filter((e) => e.userid === localStorage.getItem("id"))
+  let data1 = data.filter((e) => e.userid == localStorage.getItem("id"))
 
   let total = data1.reduce((s, i) => {
     return s + (i.price * (i.quantity))
   }, 0)
 
-  
-  function handlePlaceOrder (){
-    data1.forEach((item )=> {
-      axios.post('http://localhost:4000/orders',item)
-      .then(()=>{axios.delete(`http://localhost:4000/cart/${item.id}`)})
-     
+  let id = localStorage.getItem("id")
+  function handlePlaceOrder() {
+    data1.forEach((item) => {
+      axios.post('http://localhost:4000/orders', item)
+        .then(() => { axios.delete(`http://localhost:4000/cart/${item.id}`) })
         .catch(err => console.error(err))
     });
 
-    setData([]); 
+    setData([]);
+    if (id) {
+      toast.success("✅ Order placed successfully!", {
+        position: "top-center",
+        autoClose: 1500,
+        onClose: () => navigate('/success')
+      })
+    }
+    else { navigate('/login') }
 
-    toast.success("✅ Order placed successfully!", {
-      position: "top-center",
-      autoClose: 2000,
-      onClose:()=>navigate('/success')
-    })
-    
   }
 
   return (
@@ -111,7 +112,7 @@ function Checkout() {
               fontWeight: "500",
               transition: "0.3s"
             }}
-          
+
           >
             Place Order
           </button>

@@ -11,6 +11,8 @@ import Profile from './Profile'
 import CartPage from './Cart'
 import Checkout from './Checkout'
 import Success from './Success'
+import Wishlist from './Wishlist'
+import Notfound from './Notfound'
 function Routess() {
   return (
     <>
@@ -26,6 +28,8 @@ function Routess() {
         <Route path='/cart' element={<CartPage />} />
         <Route path='/checkout' element={<Checkout />} />
         <Route path='/success' element={<Success />} />
+        <Route path='/wishlist' element={<Wishlist />} />
+        <Route path='*' element={<Notfound />} />
       </Routes>
     </>
   )
