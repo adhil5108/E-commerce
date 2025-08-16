@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
 import { FaSearch } from "react-icons/fa"
-import { NavLink, useNavigate } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 import Footer from './Footer'
 import Navbar from './navbar'
 import { toast } from "react-toastify"
@@ -13,7 +13,8 @@ function Allcollections() {
   const [data, setData] = useState([])
   const [idata, setIdata] = useState("")
   const [newdata, setnewData] = useState([])
-  const [searched, setSearched] = useState(false)
+  const [brandFilter, setBrandFilter] = useState("")
+  const [wishlist, setWishlist] = useState([])
 
 
   useEffect(() => {
@@ -25,21 +26,34 @@ function Allcollections() {
       .catch((error) => {
         console.log(error)
       })
+
+    const userId = localStorage.getItem("id")
+    if (userId) {
+      axios.get(`http://localhost:4000/wishlist?userid=${userId}`)
+        .then(res => setWishlist(res.data))
+        .catch(err => console.error(err))
+    }
+
   }, [])
+
+
 
   function inputstore(e) {
     setIdata(e.target.value)
   }
 
   function click() {
-    setSearched(true);
-    const search = data.filter(
-      (p) => p.title.toLowerCase().includes(idata.toLowerCase()) || p.brand.toLowerCase().includes(idata.toLowerCase())
-    )
+    let search = data
+    if (idata) {
+      search = search.filter((p) => p.title.toLowerCase().includes(idata.toLowerCase()) || p.brand.toLowerCase().includes(idata.toLowerCase()))
+    }
+    if (brandFilter) {
+      search = search.filter((p) => p.brand.toLowerCase() === brandFilter.toLowerCase())
+    }
     setnewData(search)
   }
 
-  const displayProducts = searched ? newdata : data
+  const displayProducts = newdata.length > 0 ? newdata : data
 
   function handleSort(e) {
     const value = e.target.value
@@ -54,7 +68,21 @@ function Allcollections() {
     }
 
     setnewData(sortedProducts)
-    setSearched(true)
+  }
+
+  function handleBrandFilter(e) {
+    const value = e.target.value
+    setBrandFilter(value)
+    let filtered = data
+    if (idata) {
+      filtered = filtered.filter(
+        (p) => p.title.toLowerCase().includes(idata.toLowerCase()) || p.brand.toLowerCase().includes(idata.toLowerCase())
+      )
+    }
+    if (value) {
+      filtered = filtered.filter((p) => p.brand.toLowerCase() === value.toLowerCase())
+    }
+    setnewData(filtered)
   }
 
   function cart(product) {
@@ -79,6 +107,7 @@ function Allcollections() {
         toast.error("Error checking cart")
       })
   }
+
   function wish(product) {
     const userId = localStorage.getItem("id")
 
@@ -89,22 +118,20 @@ function Allcollections() {
         } else {
           axios.post('http://localhost:4000/wishlist', { ...product, userid: userId })
             .then(() => {
-              toast.success(`${product.title} added to wishlist! ❤️`, {
-                position: "top-right",
-                style: { marginTop: "30px" }
-              })
+              setWishlist(prev => [...prev, product])
             })
             .catch(err => {
               console.error(err)
-
             })
         }
       })
       .catch(err => {
         console.error(err)
-
       })
   }
+
+  const brands = [...new Set(data.map((item) => item.brand))]
+
 
   return (
     <>
@@ -131,18 +158,14 @@ function Allcollections() {
               border: "none",
               padding: "15px",
               boxShadow: "10px 4px 12px rgba(0, 0, 0, 0.1)",
+
             }}
             onChange={inputstore}
             onKeyDown={(e) => {
-              if (e.key = "Enter" || e.key === "Enter") {
+              if (e.key === "Enter" || e.key) {
                 click()
               }
-
-            }}
-
-
-
-          />
+            }} placeholder="search products... "/>
           <button
             style={{
               height: "40px",
@@ -152,10 +175,9 @@ function Allcollections() {
               display: "flex",
               alignItems: "center",
               background: "white",
-              boxShadow: "10px 4px 12px rgba(0, 0, 0, 0.1)",
+              boxShadow: "10px 4px 12px rgba(0, 0, 0, 0.1)", marginRight: "60px"
             }}
-            onClick={click}
-          >
+            onClick={click}>
             <FaSearch />
           </button>
 
@@ -163,7 +185,6 @@ function Allcollections() {
             name="drop"
             id="drop"
             style={{
-              marginLeft: "100px",
               height: "40px",
               borderRadius: "5px",
               backgroundColor: "white",
@@ -177,9 +198,24 @@ function Allcollections() {
             <option value="default">Default</option>
           </select>
 
-
+          <select
+            name="brand"
+            id="brand"
+            style={{
+              height: "40px",
+              borderRadius: "5px",
+              backgroundColor: "white",
+              paddingLeft: "10px",
+              paddingRight: "10px",
+              border: "none"
+            }}
+            onChange={handleBrandFilter}>
+            <option value="">All Brands</option>
+            {brands.map((brand, index) => (
+              <option key={index} value={brand}>{brand}</option>
+            ))}
+          </select>
         </div>
-
 
         <div
           style={{
@@ -220,11 +256,12 @@ function Allcollections() {
                     position: "absolute",
                     top: "10px",
                     right: "10px",
-                    color: "white",
+                    color: wishlist.some(item => String(item.id) === String(product.id)) ? "red" : "white",
+
                     fontSize: "20px",
                     cursor: "pointer",
                   }}
-                  onClick={localStorage.getItem("id") ? () => wish(product) : () => toast.info(
+                  onClick={localStorage.getItem("id") ? (e) => wish(product, e) : () => toast.info(
                     <div>
                       Please log in first!{" "}
                       <NavLink
@@ -323,22 +360,19 @@ function Allcollections() {
                       cursor: "pointer",
                     }}>
                     <NavLink to={`/allcollection/${product.id}`} style={{ textDecoration: "none", color: "white" }} >View more</NavLink>
-
                   </button>
                 </div>
               </div>
             ))
           ) : (
-            searched && <h2 style={{ color: "#888" }}>No products found</h2>
+            idata&&displayProducts.length===0&& <h2 style={{ color: "#888" }}>No products found</h2>
           )}
         </div>
-
       </section>
       <Footer />
-      <ToastContainer position="top-right"
-        style={{ top: "80px" }} />
+      <ToastContainer position="top-right" style={{ top: "75px" }} autoClose="1000" />
     </>
   )
 }
 
-export default Allcollections;
+export default Allcollections

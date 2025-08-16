@@ -32,8 +32,7 @@ function Success() {
           cursor: "pointer",
           fontSize: "16px"
         }}
-        onClick={() => navigate("/")}
-      >
+        onClick={() => navigate("/")}>
         Back to Home
       </button>
     </div>

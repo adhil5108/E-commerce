@@ -23,7 +23,7 @@ function Profile() {
     navigate('/login')
   }
 
-  let data = order.filter((o) => o.userid === localStorage.getItem("id"))
+  let data = order.filter((or) => or.userid === localStorage.getItem("id"))
 
   return (
     <>
@@ -52,7 +52,7 @@ function Profile() {
             Your Profile
           </h2>
 
-          {(name || email || age || phone) && (
+          {(name ) && (
             <div
               style={{
                 lineHeight: '1.6',

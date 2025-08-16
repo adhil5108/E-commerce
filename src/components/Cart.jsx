@@ -28,7 +28,7 @@ function CartPage() {
     return e.userid == localStorage.getItem("id")
   })
 
-  const checkout = data1.reduce((acc, item) => acc + item.price * item.quantity, 0)
+  const checkout = data1.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
   function count(item, update) {
     if (update < 1) return

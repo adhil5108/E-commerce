@@ -64,8 +64,9 @@ function About ()  {
       </p>
     
     </div>
-    <Footer/>
+   
     </section>
+     <Footer/>
     </>
   );
 };

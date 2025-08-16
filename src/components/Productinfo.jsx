@@ -1,37 +1,35 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
-import { useParams } from "react-router-dom"
+import { useParams,NavLink } from "react-router-dom"
 import Navbar from "./navbar"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import { ToastContainer } from "react-toastify"
+
 function Productinfo() {
   let { productid } = useParams()
 
   const [data, setData] = useState({})
-  const [loading, setLoading] = useState(true)
 
   console.log(productid)
-
   useEffect(() => {
-    setLoading(true);
+
     axios
       .get(`http://localhost:4000/products/${productid}`)
       .then((res) => {
         setData(res.data)
-        setLoading(false)
       })
       .catch((err) => {
         console.error(err)
-        setLoading(false)
-      });
+      })
   }, [productid])
 
 
   function cart(product) {
     const userId = localStorage.getItem("id");
 
-
-    axios.get(`http://localhost:4000/cart?userid=${userId}&id=${product.id}`)
+    if (userId) {
+      axios.get(`http://localhost:4000/cart?userid=${userId}&id=${product.id}`)
       .then((res) => {
         if (res.data.length > 0) {
 
@@ -50,8 +48,23 @@ function Productinfo() {
       })
       .catch(err => {
         console.error("Error checking cart:", err)
-      });
-  }
+      })
+    }
+    else { toast.info(
+    <div>
+      Please log in first!{" "}
+      <NavLink
+        to="/login"
+        style={{
+          color: "#B29700",
+          textDecoration: "underline",
+          cursor: "pointer",
+        }}>
+        Login
+      </NavLink>
+    </div>
+  )}
+  } 
 
   return (
     <><Navbar />
@@ -62,8 +75,7 @@ function Productinfo() {
           minHeight: "100vh",
           padding: "40px 20px",
           marginTop: "100px"
-        }}
-      >
+        }}>
         <div
           style={{
             maxWidth: "900px",
@@ -74,8 +86,7 @@ function Productinfo() {
             overflow: "hidden",
             display: "flex",
             flexWrap: "wrap",
-          }}
-        >
+          }}>
 
           <div
             style={{
@@ -84,8 +95,7 @@ function Productinfo() {
               alignItems: "center",
               justifyContent: "center",
               padding: "20px",
-            }}
-          >
+            }}>
             <img
               src={data.image}
               alt={data.title}
@@ -94,8 +104,7 @@ function Productinfo() {
                 maxWidth: "300px",
                 borderRadius: "8px",
                 objectFit: "contain",
-              }}
-            />
+              }}/>
           </div>
 
           <div style={{ flex: "1 1 500px", padding: "20px 30px" }}>
@@ -105,8 +114,7 @@ function Productinfo() {
               style={{
                 color: "#e67e22",
                 marginBottom: "20px",
-              }}
-            >
+              }}>
               ${data.price}
             </h2>
             <p style={{ marginBottom: "20px", lineHeight: "1.6" }}>
@@ -133,8 +141,11 @@ function Productinfo() {
             </button>
           </div>
         </div>
-      </div></>
-  );
+      </div>
+      <ToastContainer position="top-right" style={{ top: "75px" }} />
+    </>
+  )
+
 }
 
 export default Productinfo;

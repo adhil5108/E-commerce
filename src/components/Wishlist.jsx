@@ -3,7 +3,7 @@ import axios from "axios"
 import Navbar from "./navbar"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-
+import { ToastContainer } from "react-toastify"
 
 function Wishlist() {
   let [wishlist, setWishlist] = useState([])
@@ -151,7 +151,7 @@ function Wishlist() {
         <p>No items in wishlist</p>
       )}
     </div>
-  
+   <ToastContainer position="top-right" style={{ top: "75px" }} />
     </>
   )
 }

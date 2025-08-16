@@ -1,12 +1,12 @@
 import React from "react";
-import { FaUserPlus, FaHeart, FaShoppingCart } from "react-icons/fa";
-import { NavLink, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { FaUserPlus, FaHeart, FaShoppingCart } from "react-icons/fa"
+import { NavLink, useNavigate } from "react-router-dom"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 function Navbar() {
-  const navigate = useNavigate();
-  const logged = !!localStorage.getItem("name");
+  const navigate = useNavigate()
+  const logged = !!localStorage.getItem("name")
 
   return (
     <>
@@ -19,8 +19,7 @@ function Navbar() {
           backdropFilter: "blur(10px)",
           boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
           zIndex: 50,
-        }}
-      >
+        }}>
         <div
           style={{
             maxWidth: "1280px",
@@ -29,8 +28,7 @@ function Navbar() {
             alignItems: "center",
             justifyContent: "space-between",
             padding: "16px 24px",
-          }}
-        >
+          }}>
           <NavLink
           to={'/'}
             style={{
@@ -39,8 +37,7 @@ function Navbar() {
               fontWeight: "bold",
               textDecoration:"none",
               color: "#2E2E2E",
-            }}
-          >
+            }}>
             TimeLux
           </NavLink>
 
@@ -53,8 +50,7 @@ function Navbar() {
                 textDecoration: "none",
                 borderBottom: isActive ? "2px solid #B29700" : "none",
                 paddingBottom: "2px",
-              })}
-            >
+              })} >
               Home
             </NavLink>
 
@@ -66,8 +62,7 @@ function Navbar() {
                 textDecoration: "none",
                 borderBottom: isActive ? "2px solid #B29700" : "none",
                 paddingBottom: "2px",
-              })}
-            >
+              })}>
               All Collections
             </NavLink>
 
@@ -79,8 +74,7 @@ function Navbar() {
                 textDecoration: "none",
                 borderBottom: isActive ? "2px solid #B29700" : "none",
                 paddingBottom: "2px",
-              })}
-            >
+              })}>
               Brands
             </NavLink>
 
@@ -92,8 +86,7 @@ function Navbar() {
                 textDecoration: "none",
                 borderBottom: isActive ? "2px solid #B29700" : "none",
                 paddingBottom: "2px",
-              })}
-            >
+              })}>
               About
             </NavLink>
           </nav>
@@ -109,7 +102,7 @@ function Navbar() {
          <div
               onClick={() => {
                 if (logged) {
-                  navigate("/wishlist");
+                  navigate("/wishlist")
                 } else {
                   toast.info(
                     <div>
@@ -124,7 +117,7 @@ function Navbar() {
                         Login
                       </NavLink>
                     </div>
-                  );
+                  )
                 }
               }}
               style={{
@@ -134,11 +127,10 @@ function Navbar() {
               }}>
               <FaHeart />
             </div>
-
-                   <div
+            <div
               onClick={() => {
                 if (logged) {
-                  navigate("/cart");
+                  navigate("/cart")
                 } else {
                   toast.info(
                     <div>
@@ -153,7 +145,7 @@ function Navbar() {
                         Login
                       </NavLink>
                     </div>
-                  );
+                  )
                 }
               }}
               style={{
@@ -197,7 +189,7 @@ function Navbar() {
 
       <ToastContainer />
     </>
-  );
+  )
 }
 
 export default Navbar;
