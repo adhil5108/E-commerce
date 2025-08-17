@@ -1,13 +1,47 @@
-import React from "react";
-import { FaUserPlus, FaHeart, FaShoppingCart } from "react-icons/fa"
+import React, { Fragment, useEffect, useState } from "react";
+import { FaUserPlus, FaHeart, FaShoppingCart, FaUserMinus, FaBars } from "react-icons/fa"
 import { NavLink, useNavigate } from "react-router-dom"
+import { FaUserCircle } from "react-icons/fa";
+
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import Login from "./login";
+import axios from "axios";
+
 
 function Navbar() {
-  const navigate = useNavigate()
+
+  let [wish, setwish] = useState([])
+  let [cart, setcart] = useState([])
+  let [users, setuser] = useState([])
+  let [bar, setbar] = useState(false)
+
+  useEffect(() => {
+    axios.get("http://localhost:4000/wishlist")
+      .then((res) => setwish(res.data))
+      .catch((err) => console.error(err))
+
+    axios.get("http://localhost:4000/cart")
+      .then((res) => setcart(res.data))
+      .catch((err) => console.error(err))
+
+    axios.get("http://localhost:4000/users")
+      .then((res) => setuser(res.data))
+      .catch((err) => console.error(err))
+  }, [])
+
+  let navigate = useNavigate()
   const logged = !!localStorage.getItem("name")
 
+  let wishlist = wish.filter((e) => e.userid === localStorage.getItem("id"))
+  let wishcount = wishlist.length
+
+  let cartlist = cart.filter((e) => e.userid === localStorage.getItem("id"))
+  let cartcount = cartlist.length
+
+  let user = users.find((e) => e.id == localStorage.getItem("id"))
+
+  
   return (
     <>
       <header
@@ -20,6 +54,122 @@ function Navbar() {
           boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
           zIndex: 50,
         }}>
+        {user?.role === "admin" && (
+          <div
+            style={{
+              position: "absolute",
+              left: "16px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "#fff",
+              color: "#101010",
+              padding: "10px",
+              borderRadius: "50%",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+              transition: "all 0.3s ease",
+            }}
+          >
+            <FaBars style={{ fontSize: "1.5rem" }} onClick={() => setbar(true)} />
+
+            {bar && (
+              <div
+                style={{
+                  position: "fixed",
+                  top: 0,
+                  left: -18,
+                  width: "280px",
+                  height: "100vh",
+                  background: "linear-gradient(180deg, #1C1C1C, #2E2E2E)",
+                  color: "#fff",
+                  padding: "24px",
+                  zIndex: 1000,
+                  transition: "all 0.3s ease",
+                  boxShadow: "4px 0 12px rgba(0,0,0,0.4)",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div>
+                  <h3
+                    style={{
+                      marginBottom: "20px",
+                      color: "#FFD700",
+                      fontSize: "1.3rem",
+                      fontWeight: "bold",
+                      borderBottom: "2px solid #FFD700",
+                      paddingBottom: "8px",
+                      textAlign: "center",
+                    }}
+                  >
+                    Admin Menu
+                  </h3>
+                  <ul style={{ listStyle: "none", padding: 0 }}>
+                    <li style={{
+                      margin: "12px 0",
+                      padding: "10px 14px",
+                      borderRadius: "6px",
+                      cursor: "pointer",
+                      transition: "all 0.3s ease",
+                      fontWeight: 500, borderBottom: "1px solid rgba(255, 255, 255, 0.2)"
+                    }}  onClick={()=>navigate('/admin/dashboard')} >📊 Dashboard</li>
+                    <li style={{
+                      margin: "12px 0",
+                      padding: "10px 14px",
+                      borderRadius: "6px",
+                      cursor: "pointer",
+                      transition: "all 0.3s ease",
+                      fontWeight: 500, borderBottom: "1px solid rgba(255, 255, 255, 0.2)"
+                    }}>👥 Users</li>
+                    <li style={{
+                      margin: "12px 0",
+                      padding: "10px 14px",
+                      borderRadius: "6px",
+                      cursor: "pointer",
+                      transition: "all 0.3s ease",
+                      fontWeight: 500, borderBottom: "1px solid rgba(255, 255, 255, 0.2)"
+                    }}>🛍️ Products</li>
+                    <li style={{
+                      margin: "12px 0",
+                      padding: "10px 14px",
+                      borderRadius: "6px",
+                      cursor: "pointer",
+                      transition: "all 0.3s ease",
+                      fontWeight: 500, borderBottom: "1px solid rgba(255, 255, 255, 0.2)"
+                    }}>📦 Orders</li>
+                  </ul>
+                </div>
+
+                <button
+                  style={{
+                    alignSelf: "center",
+                    marginBottom: "50px",
+                    background: "#FFD700",
+                    border: "none",
+                    padding: "10px 20px",
+                    borderRadius: "8px",
+                    cursor: "pointer",
+                    color: "#1C1C1C",
+                    fontWeight: "600",
+                    fontSize: "1rem",
+                    boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+                    transition: "all 0.3s ease",
+                  }}
+                  onClick={() => setbar(false)}
+                  onMouseOver={(e) => (e.target.style.background = "#e6c200")}
+                  onMouseOut={(e) => (e.target.style.background = "#FFD700")}
+                >
+                  ✖ Close
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
         <div
           style={{
             maxWidth: "1280px",
@@ -30,12 +180,12 @@ function Navbar() {
             padding: "16px 24px",
           }}>
           <NavLink
-          to={'/'}
+            to={'/'}
             style={{
               fontFamily: "serif",
               fontSize: "2rem",
               fontWeight: "bold",
-              textDecoration:"none",
+              textDecoration: "none",
               color: "#2E2E2E",
             }}>
             TimeLux
@@ -99,7 +249,7 @@ function Navbar() {
               fontSize: "1.1rem",
               alignItems: "center",
             }}>
-         <div
+            <div
               onClick={() => {
                 if (logged) {
                   navigate("/wishlist")
@@ -126,6 +276,22 @@ function Navbar() {
                 cursor: "pointer",
               }}>
               <FaHeart />
+              {localStorage.getItem("id") && <span
+                style={{
+                  position: "relative",
+                  top: "-10px",
+                  right: "8px",
+                  background: "#B29700",
+                  color: "#fff",
+                  fontSize: "0.7rem",
+                  fontWeight: "bold",
+                  padding: "2px 6px",
+                  borderRadius: "50%",
+                }}
+              >
+                {wishcount}
+              </span>}
+
             </div>
             <div
               onClick={() => {
@@ -154,26 +320,29 @@ function Navbar() {
                 cursor: "pointer",
               }}>
               <FaShoppingCart />
+              {localStorage.getItem("id") && <span
+                style={{
+                  position: "relative",
+                  top: "-10px",
+                  right: "8px",
+                  background: "#B29700",
+                  color: "#fff",
+                  fontSize: "0.7rem",
+                  fontWeight: "bold",
+                  padding: "2px 6px",
+                  borderRadius: "50%",
+                }}
+              >
+                {cartcount}
+              </span>}
+
             </div>
             <div
               onClick={() => {
                 if (logged) {
                   navigate("/profile")
                 } else {
-                  toast.info(
-                    <div>
-                      Please log in first!{" "}
-                      <NavLink
-                        to="/login"
-                        style={{
-                          color: "#B29700",
-                          textDecoration: "underline",
-                          cursor: "pointer",
-                        }}>
-                        Login
-                      </NavLink>
-                    </div>
-                  )
+                  navigate("/login")
                 }
               }}
               style={{
@@ -181,7 +350,29 @@ function Navbar() {
                 transition: "color 0.3s ease",
                 cursor: "pointer",
               }}>
-              <FaUserPlus />
+              {localStorage.getItem("id") ? <>
+                <button style={{
+                  padding: "6px 16px",
+                  border: "1px solid #B29700",
+                  borderRadius: "20px",
+                  background: "transparent",
+                  color: "#2E2E2E",
+                  fontWeight: "500",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                }}>Logout</button>
+
+              </> : <><button style={{
+                padding: "6px 16px",
+                border: "1px solid #B29700",
+                borderRadius: "20px",
+                background: "transparent",
+                color: "#2E2E2E",
+                fontWeight: "500",
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+
+              }}>Login</button></>}
             </div>
           </div>
         </div>

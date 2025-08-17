@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Register from './Register'
 import Login from './login'
@@ -13,8 +13,20 @@ import Checkout from './Checkout'
 import Success from './Success'
 import Wishlist from './Wishlist'
 import Notfound from './Notfound'
-
+import Dshboard from '../admin/Dshboard'
+import axios from 'axios'
 function Routess() {
+
+   let [users,setuser]=useState([])
+   useEffect(()=>{
+axios.get("http://localhost:4000/users")
+.then(res=>setuser(res.data))
+.catch(er=>console.error(er))
+   },[])
+
+let user=users.find((e)=>String(e.id)===localStorage.getItem("id"))
+console.log(user?.role)
+
   return (
     <>
       <Routes>
@@ -30,7 +42,13 @@ function Routess() {
         <Route path='/checkout' element={<Checkout />} />
         <Route path='/success' element={<Success />} />
         <Route path='/wishlist' element={<Wishlist />} />
+        <Route  path='/admin/dashboard'   element={ user?.role === "admin" ? <Dshboard /> :<Notfound />} />
+
+        
+          
+
         <Route path='*' element={<Notfound />} />
+
       </Routes>
     </>
   )

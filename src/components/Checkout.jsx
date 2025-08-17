@@ -32,11 +32,12 @@ function Checkout() {
 
     setData([]);
     if (id) {
-      toast.success("✅ Order placed successfully!", {
+      toast.success("Order placed successfully!", {
         position: "top-center",
         autoClose: 1500,
-        onClose: () => navigate('/success')
+        
       })
+      navigate('/success')
     }
     else { navigate('/login') }
 

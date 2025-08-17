@@ -17,7 +17,7 @@ function Success() {
       backgroundColor: "#f9f9f9",
       textAlign: "center"
     }}>
-      <h1 style={{ fontSize: "60px", color: "green" }}>✅ Order Successful!</h1>
+      <h1 style={{ fontSize: "60px", color: "green" }}> Order Successful!</h1>
       <p style={{ fontSize: "18px", marginTop: "10px" }}>
         Thank you for your purchase. Your order will be delivered soon.
       </p>

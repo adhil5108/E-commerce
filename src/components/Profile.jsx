@@ -40,25 +40,22 @@ function Profile() {
             boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
             fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
             backgroundColor: '#fafafa',
-          }}
-        >
+          }}>
           <h2
             style={{
               textAlign: 'center',
               marginBottom: '1rem',
               color: '#333',
-            }}
-          >
+            }}>
             Your Profile
           </h2>
 
-          {(name ) && (
+          {(name) && (
             <div
               style={{
                 lineHeight: '1.6',
                 fontSize: '1.1rem',
-              }}
-            >
+              }} >
               <p>
                 <strong>Name:</strong> {name || 'Not set'}
               </p>
@@ -91,8 +88,7 @@ function Profile() {
               boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
               margin: '1.5rem 130px'
 
-            }}
-          >
+            }}>
             Log out
           </button>
         </div>
