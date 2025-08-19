@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
 import { FaSearch } from "react-icons/fa"
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import Footer from './Footer'
 import Navbar from './navbar'
 import { toast } from "react-toastify"
@@ -15,9 +15,11 @@ function Allcollections() {
   const [newdata, setnewData] = useState([])
   const [brandFilter, setBrandFilter] = useState("")
   const [wishlist, setWishlist] = useState([])
+  let [users,setusers]=useState([])
 
+let navigate=useNavigate()
 
-  useEffect(() => {
+  useEffect(()=>{
     axios
       .get("http://localhost:4000/products")
       .then((response) => {
@@ -33,9 +35,18 @@ function Allcollections() {
         .then(res => setWishlist(res.data))
         .catch(err => console.error(err))
     }
+       axios
+      .get("http://localhost:4000/users")
+      .then((response) => {
+        setusers(response.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
 
   }, [])
-
+ 
+ let user = users.find((e) => String(e.id) === String(localStorage.getItem("id")))
 
 
   function inputstore(e) {
@@ -132,7 +143,6 @@ function Allcollections() {
 
   const brands = [...new Set(data.map((item) => item.brand))]
 
-
   return (
     <>
       <Navbar />
@@ -142,8 +152,7 @@ function Allcollections() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-        }}
-      >
+        }}>
         <h1 style={{ fontSize: "50px", fontWeight: "100", fontFamily: "inherit" }}>
           All products
         </h1>
@@ -226,6 +235,7 @@ function Allcollections() {
           }}>
           {displayProducts.length > 0 ? (
             displayProducts.map((product, index) => (
+              product.status==="available"&&
               <div
                 key={index}
                 style={{
@@ -259,8 +269,9 @@ function Allcollections() {
                     color: wishlist.some(item => String(item.id) === String(product.id)) ? "red" : "white",
 
                     fontSize: "20px",
-                    cursor: "pointer",
+                    cursor: "pointer",display: user?.role === "admin" ? "none" : "block"
                   }}
+                  
                   onClick={localStorage.getItem("id") ? (e) => wish(product, e) : () => toast.info(
                     <div>
                       Please log in first!{" "}
@@ -329,7 +340,7 @@ function Allcollections() {
                       border: "none",
                       borderRadius: "5px",
                       fontWeight: "bold",
-                      cursor: "pointer",
+                      cursor: "pointer",display: user?.role === "admin" ? "none" : "block"
                     }}
                     onClick={localStorage.getItem("id") ? () => cart(product) : () => toast.info(
                       <div>
@@ -358,8 +369,8 @@ function Allcollections() {
                       borderRadius: "5px",
                       fontWeight: "bold",
                       cursor: "pointer",
-                    }}>
-                    <NavLink to={`/allcollection/${product.id}`} style={{ textDecoration: "none", color: "white" }} >View more</NavLink>
+                    }} onClick={()=>navigate(`/allcollection/${product.id}`)}>
+                    View more
                   </button>
                 </div>
               </div>
@@ -370,7 +381,7 @@ function Allcollections() {
         </div>
       </section>
       <Footer />
-      <ToastContainer position="top-right" style={{ top: "75px" }} autoClose="1000" />
+      <ToastContainer position="top-right" style={{ top: "75px" }} autoClose={1000} />
     </>
   )
 }

@@ -10,6 +10,7 @@ function Productinfo() {
   let { productid } = useParams()
 
   const [data, setData] = useState({})
+  let [users,setusers]=useState([])
 
   console.log(productid)
   useEffect(() => {
@@ -24,6 +25,20 @@ function Productinfo() {
       })
   }, [productid])
 
+
+useEffect(()=>{
+ axios
+      .get("http://localhost:4000/users")
+      .then((response) => {
+        setusers(response.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+
+},[])
+
+ let user = users.find((e) => String(e.id) === String(localStorage.getItem("id")))
 
   function cart(product) {
     const userId = localStorage.getItem("id");
@@ -134,7 +149,7 @@ function Productinfo() {
                 border: "none",
                 borderRadius: "6px",
                 cursor: "pointer",
-                fontSize: "16px",
+                fontSize: "16px",display:user?.role==="admin"?"none":"inline"
               }}
               onClick={() => cart(data)} >
               Add to Cart

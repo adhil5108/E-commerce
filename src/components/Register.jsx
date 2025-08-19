@@ -9,7 +9,9 @@ function Register() {
     name: '',
     age: '',
     email: '',
-    phone: '',
+    phone: '', 
+    role: "user", 
+    status: "active",
     password: '',
   })
 
@@ -20,27 +22,27 @@ function Register() {
     setData(prev => ({
       ...prev,
       [e.target.name]: e.target.value,
-    }));
+    }))
   }
 
   function validate(data) {
     const errors = {}
 
-    if (data.name.length===0) errors.name = 'Name is required'
+    if (data.name.length === 0) errors.name = 'Name is required'
 
-    if (data.age.length===0) errors.age = 'Age is required'
-    else if (data.age * 1 <= 15) errors.age = 'have to be 15 to login '
+    if (data.age.length === 0) errors.age = 'Age is required'
+    else if (data.age * 1 <= 15) errors.age = 'have to be 15 to login'
 
-    if (data.email.length===0) errors.email = 'Email is required'
+    if (data.email.length === 0) errors.email = 'Email is required'
     else if (!data.email.includes('@') || !data.email.includes('.')) errors.email = 'Invalid email'
 
-    if (data.phone.length===0) errors.phone = 'Phone number is required';
+    if (data.phone.length === 0) errors.phone = 'Phone number is required';
     else if (data.phone.length !== 10) errors.phone = 'Phone number must be exactly 10 digits'
 
     if (!data.password) errors.password = 'Password is required'
     else if (data.password.length < 6) errors.password = 'Password must be at least 6 characters'
 
-    return errors;
+    return errors
   }
 
   function submit(e) {
@@ -64,7 +66,7 @@ function Register() {
         .catch(err => {
           console.log(err);
         });
-      navigate('/login')
+      navigate('/login', { replace: true })
     }
   }
 

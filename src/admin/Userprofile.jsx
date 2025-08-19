@@ -1,47 +1,43 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Navbar from './navbar'
 import axios from 'axios'
-import Footer from './Footer'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import Navbar from '../components/navbar'
+import Footer from '../components/Footer'
 
-function Profile() {
-  let [order, Setorder] = useState([])
-     let [users, setusers] = useState([])
+function Userprofile() { 
+    let [user,setuser]=useState({})
+    let [order,setorder]=useState([])
+    let {id}=useParams()
+  
+     useEffect(()=>{
+     axios.get(`http://localhost:4000/users/${id}`)
+     .then(res=>setuser(res.data))
+     .catch(err=>console.error(err))
 
-  useEffect(() => {
-    axios.get('http://localhost:4000/orders')
-      .then(res => Setorder(res.data))
-      .catch(err => console.error(err))
+          axios.get(`http://localhost:4000/orders`)
+     .then(res=>setorder(res.data))
+     .catch(err=>console.error(err))
 
-       axios
-      .get("http://localhost:4000/users")
-      .then((response) => {
-        setusers(response.data)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }, [])
+     },[])
 
- let user = users.find((e) => String(e.id) === String(localStorage.getItem("id")))
 
-  let navigate = useNavigate()
-  const name = localStorage.getItem('name')
-  const email = localStorage.getItem('email')
-  const age = localStorage.getItem('age')
-  const phone = localStorage.getItem('phone')
+     let data=order.filter((e)=>e.userid===user.id)
 
-  function logout() {
-    localStorage.clear()
-    navigate('/login',{replace:true})
-  }
+   function block(user){
+    if(user.status==="blocked"){ axios.patch(`http://localhost:4000/users/${id}`,{status:"active"})
+    .then(res=>setuser(res.data))
+    .catch(err=>console.error(err))}
 
-  let data = order.filter((or) => or.userid === localStorage.getItem("id"))
+   else if(user.status==="active"){ axios.patch(`http://localhost:4000/users/${id}`,{status:"blocked"})
+    .then(res=>setuser(res.data))
+    .catch(err=>console.error(err))}
+   }
+   
 
   return (
-    <>
-      <Navbar />
-      <div style={{ marginTop: "150px" }}>
+    <>  
+    <Navbar/>
+     <div style={{ marginTop: "150px" }}>
         <div
           style={{
             maxWidth: '400px',
@@ -60,32 +56,36 @@ function Profile() {
               marginBottom: '1rem',
               color: '#333',
             }}>
-            Your Profile
+           user Profile
           </h2>
 
-          {(name) && (
+          {(user) && (
             <div
               style={{
                 lineHeight: '1.6',
                 fontSize: '1.1rem',
               }} >
               <p>
-                <strong>Name:</strong> {name || 'Not set'}
+                <strong>Name:</strong> {user.name}
               </p>
               <p>
-                <strong>Email:</strong> {email || 'Not set'}
+                <strong>Email:</strong> {user.email }
               </p>
               <p>
-                <strong>Age:</strong> {age || 'Not set'}
+                <strong>Age:</strong> {user.age }
               </p>
               <p>
-                <strong>Phone:</strong> {phone || 'Not set'}
+                <strong>Phone:</strong> {user.phone}
+              </p>
+
+               <p>
+                <strong>status:</strong> {user.status }
               </p>
             </div>
           )}
 
           <button
-            onClick={logout}
+           
             style={{
               marginTop: '1.5rem',
               width: '30%',
@@ -101,13 +101,13 @@ function Profile() {
               boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
               margin: '1.5rem 130px'
 
-            }}>
-            Log out
+            }} onClick={()=>block(user)} >
+         {user.status==="blocked"?'unblock':'block'}
           </button>
         </div>
       </div>
 
-      <div style={{ marginTop: "60px", maxWidth: "900px", marginInline: "auto", padding: "0 15px" ,display:user?.role==="admin"?"none":"block"}}>
+      <div style={{ marginTop: "60px", maxWidth: "900px", marginInline: "auto", padding: "0 15px" }}>
         <h1 style={{
           marginBottom: "20px",
           borderBottom: "2px solid #ddd",
@@ -164,10 +164,9 @@ function Profile() {
           ))
         )}
       </div>
-
-      <Footer />
-    </>
+      <Footer/>
+      </>
   )
 }
 
-export default Profile;
+export default Userprofile
