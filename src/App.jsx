@@ -1,11 +1,8 @@
-import { useState } from 'react'
+import react from 'react'
 import Routess from './components/routess'
 import './App.css'
 
 function App() {
-return(<>
-<Routess/>
-</>)
-}
+return(<Routess/>)}
 
 export default App

@@ -17,21 +17,23 @@ function Login() {
 
 
   let ed = fetc.map((e, i) => {
-    return { id: e.id, name: e.name, pass: e.password, age: e.age, email: e.email, phone: e.phone ,role:e.role,status:e.status}
+    return { id: e.id, name: e.name, pass: e.password, age: e.age, email: e.email, phone: e.phone, role: e.role, status: e.status }
   })
 
   function submit(e) {
     e.preventDefault()
 
     const user = ed.find(u => u.name === data.name && u.pass === data.password)
-   
-    if (user&&user.status==="active") {
+
+    if (user && user.status === "active") {
       naviagte('/', { replace: true })
       localStorage.setItem("name", user.name)
       localStorage.setItem("age", user.age)
       localStorage.setItem("email", user.email)
       localStorage.setItem("phone", user.phone)
       localStorage.setItem("id", user.id)
+      localStorage.setItem("role", user.role)
+      window.location.reload()
 
     } else {
       setErorr("User not found")
@@ -68,7 +70,7 @@ function Login() {
         </form>
       </div>
     </div>
-  );
+  )
 }
 
 export default Login;

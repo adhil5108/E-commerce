@@ -269,7 +269,7 @@ let navigate=useNavigate()
                     color: wishlist.some(item => String(item.id) === String(product.id)) ? "red" : "white",
 
                     fontSize: "20px",
-                    cursor: "pointer",display: user?.role === "admin" ? "none" : "block"
+                    cursor: "pointer",
                   }}
                   
                   onClick={localStorage.getItem("id") ? (e) => wish(product, e) : () => toast.info(
@@ -340,7 +340,7 @@ let navigate=useNavigate()
                       border: "none",
                       borderRadius: "5px",
                       fontWeight: "bold",
-                      cursor: "pointer",display: user?.role === "admin" ? "none" : "block"
+                      cursor: "pointer"
                     }}
                     onClick={localStorage.getItem("id") ? () => cart(product) : () => toast.info(
                       <div>

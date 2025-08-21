@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, Navigate } from 'react-router-dom'
 import Register from './Register'
 import Login from './login'
 import Home from './Home'
@@ -24,42 +24,30 @@ import Edit from '../admin/edit'
 
 function Routess() {
 
-  let [users, setuser] = useState([])
-  let [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    axios.get("http://localhost:4000/users")
-      .then(res => setuser(res.data))
-      .catch(er => console.error(er))
-      .finally(() => setLoading(false))
-  }, [])
-
-  let user = users.find((e) => String(e.id) === localStorage.getItem("id"))
-  console.log(user?.role)
-  if (loading) return <h1>Loading...</h1>
+let user={role:localStorage.getItem("role")}
 
   return (
     <>
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/about' element={<About />} />
-        <Route path='/allcollection' element={<Allcollections />} />
-        <Route path='/allcollection/:productid' element={<Productinfo />} />
-        <Route path='/brands' element={<Brands />} />
+        <Route path='/register' element={ <Register /> } />
+        <Route path='/login' element={ <Login />} />
+        <Route path='/about' element={user?.role === "user"?<About />:<Notfound/>} />
+        <Route path='/allcollection' element={user?.role === "user"?<Allcollections />:<Notfound/>} />
+        <Route path='/allcollection/:productid' element={user?.role === "user"?<Productinfo />:<Notfound/>} />
+        <Route path='/brands' element={user?.role === "user"?<Brands />:<Notfound/>} />
         <Route path='/profile' element={<Profile />} />
-        <Route path='/cart' element={user?.role === "user" ? <CartPage />: <Notfound />} />
-        <Route path='/checkout' element={user?.role === "user" ? <Checkout />: <Notfound />} />
-        <Route path='/success' element={user?.role === "user" ? <Success />: <Notfound />} />
-        <Route path='/wishlist' element={user?.role === "user" ? <Wishlist />: <Notfound />} />
+        <Route path='/cart' element={user?.role === "user" ? <CartPage /> : <Notfound />} />
+        <Route path='/checkout' element={user?.role === "user" ? <Checkout /> : <Notfound />} />
+        <Route path='/success' element={user?.role === "user" ? <Success /> : <Notfound />} />
+        <Route path='/wishlist' element={user?.role === "user" ? <Wishlist /> : <Notfound />} />
         <Route path='/admin/dashboard' element={user?.role === "admin" ? <Dshboard /> : <Notfound />} />
         <Route path='/admin/users' element={user?.role === "admin" ? <Users /> : <Notfound />} />
         <Route path='/admin/users/:id' element={user?.role === "admin" ? <Userprofile /> : <Notfound />} />
         <Route path='/admin/products' element={user?.role === "admin" ? <Displaypro /> : <Notfound />} />
         <Route path='/admin/addproduct' element={user?.role === "admin" ? <Products /> : <Notfound />} />
         <Route path='/admin/orders' element={user?.role === "admin" ? <Orders /> : <Notfound />} />
-         <Route path='/admin/product/:id' element={user?.role === "admin" ? <Edit /> : <Notfound />} />
+        <Route path='/admin/product/:id' element={user?.role === "admin" ? <Edit /> : <Notfound />} />
         <Route path='*' element={<Notfound />} />
       </Routes>
     </>

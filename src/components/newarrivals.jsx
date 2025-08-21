@@ -13,6 +13,8 @@ function Newarrivals() {
 
     let navigate=useNavigate()
 
+let role=localStorage.getItem("role")
+
     let data2 = data.filter(u => u.id == 19 || u.id == 6 ||u.id==14)
         .map(u => {
             return {
@@ -28,7 +30,7 @@ function Newarrivals() {
         }
 
     return (
-        <section style={{ marginTop: "100px", display: "flex", flexDirection: "column" }}>
+        <section style={{ marginTop: "100px", display: "flex", flexDirection: "column",display:role==="user"?"block":"none" }}>
             <h1 style={{ display: "flex", justifyContent: "center", fontSize: "50px", fontWeight: "100", fontFamily: "inherit" }}>New arrivals</h1>
 
 

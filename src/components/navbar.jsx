@@ -7,7 +7,7 @@ import axios from "axios";
 
 
 function Navbar() {
-
+  
   let [wish, setwish] = useState([])
   let [cart, setcart] = useState([])
   let [users, setuser] = useState([])
@@ -180,7 +180,7 @@ function Navbar() {
               fontSize: "2rem",
               fontWeight: "bold",
               textDecoration: "none",
-              color: "#2E2E2E",
+              color: "#2E2E2E",marginLeft:user?.role==="admin"?'540px':'0px'
             }}>
             TimeLux
           </NavLink>
@@ -193,7 +193,7 @@ function Navbar() {
                 fontWeight: 500,
                 textDecoration: "none",
                 borderBottom: isActive ? "2px solid #B29700" : "none",
-                paddingBottom: "2px",
+                paddingBottom: "2px",display: user?.role === "admin" ? "none" : "inline"
               })} >
               Home
             </NavLink>
@@ -205,7 +205,7 @@ function Navbar() {
                 fontWeight: 500,
                 textDecoration: "none",
                 borderBottom: isActive ? "2px solid #B29700" : "none",
-                paddingBottom: "2px",
+                paddingBottom: "2px",display: user?.role === "admin" ? "none" : "inline"
               })}>
               All Collections
             </NavLink>
@@ -217,7 +217,7 @@ function Navbar() {
                 fontWeight: 500,
                 textDecoration: "none",
                 borderBottom: isActive ? "2px solid #B29700" : "none",
-                paddingBottom: "2px",
+                paddingBottom: "2px",display: user?.role === "admin" ? "none" : "inline"
               })}>
               Brands
             </NavLink>
@@ -229,7 +229,7 @@ function Navbar() {
                 fontWeight: 500,
                 textDecoration: "none",
                 borderBottom: isActive ? "2px solid #B29700" : "none",
-                paddingBottom: "2px",
+                paddingBottom: "2px",display: user?.role === "admin" ? "none" : "inline"
               })}>
               About
             </NavLink>

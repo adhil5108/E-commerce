@@ -34,7 +34,7 @@ function Register() {
     else if (data.age * 1 <= 15) errors.age = 'have to be 15 to login'
 
     if (data.email.length === 0) errors.email = 'Email is required'
-    else if (!data.email.includes('@') || !data.email.includes('.')) errors.email = 'Invalid email'
+    else if (!data.email.includes('@gmail') || !data.email.includes('.com')) errors.email = 'Invalid email'
 
     if (data.phone.length === 0) errors.phone = 'Phone number is required';
     else if (data.phone.length !== 10) errors.phone = 'Phone number must be exactly 10 digits'
@@ -66,7 +66,7 @@ function Register() {
         .catch(err => {
           console.log(err);
         });
-      navigate('/login', { replace: true })
+      navigate('/login',{ replace: true })
     }
   }
 
@@ -135,4 +135,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default Register

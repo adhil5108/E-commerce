@@ -3,22 +3,30 @@ import Navbar from "../components/navbar";
 import axios from "axios";
 
 function Orders() {
-  let [orders, setOrders] = useState([]);
+  let [orders, setOrders] = useState([])
 
   useEffect(() => {
     axios
       .get("http://localhost:4000/orders")
       .then((res) => setOrders(res.data))
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err))
   }, []);
 
   return (
     <>
       <Navbar />
-      
+
       <div style={{ padding: "20px" }}>
         <h1
-          style={{ display: "flex", justifyContent: "center", fontSize: "50px", fontWeight: "100", fontFamily: "inherit",marginTop:"100px" }}>
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            fontSize: "50px",
+            fontWeight: "100",
+            fontFamily: "inherit",
+            marginTop: "100px",
+          }}
+        >
           Orders
         </h1>
 
@@ -42,7 +50,7 @@ function Orders() {
                   fontSize: "14px",
                 }}
               >
-                product ID
+                S.No
               </th>
               <th
                 style={{
@@ -53,7 +61,7 @@ function Orders() {
                   fontSize: "14px",
                 }}
               >
-                Customer id
+                Product ID
               </th>
               <th
                 style={{
@@ -64,7 +72,18 @@ function Orders() {
                   fontSize: "14px",
                 }}
               >
-                quantity
+                Customer ID
+              </th>
+              <th
+                style={{
+                  border: "1px solid #ddd",
+                  padding: "12px",
+                  textAlign: "left",
+                  fontWeight: "600",
+                  fontSize: "14px",
+                }}
+              >
+                Quantity
               </th>
               <th
                 style={{
@@ -92,11 +111,14 @@ function Orders() {
           </thead>
           <tbody>
             {orders.length > 0 ? (
-              orders.map((order) => (
+              orders.map((order, index) => (
                 <tr
                   key={order.id}
                   style={{ backgroundColor: "#fff", fontSize: "14px" }}
                 >
+                  <td style={{ border: "1px solid #ddd", padding: "10px" }}>
+                    {index + 1}
+                  </td>
                   <td style={{ border: "1px solid #ddd", padding: "10px" }}>
                     {order.id}
                   </td>
@@ -107,7 +129,7 @@ function Orders() {
                     {order.quantity}
                   </td>
                   <td style={{ border: "1px solid #ddd", padding: "10px" }}>
-                    ${order.price*order.quantity}
+                    ${order.price * order.quantity}
                   </td>
                   <td style={{ border: "1px solid #ddd", padding: "10px" }}>
                     <span
@@ -116,8 +138,10 @@ function Orders() {
                         borderRadius: "12px",
                         fontWeight: "600",
                         fontSize: "12px",
-                        backgroundColor: "#d4edda"}}>
-                      delivered
+                        backgroundColor: "#d4edda",
+                      }}
+                    >
+                      Delivered
                     </span>
                   </td>
                 </tr>
@@ -125,7 +149,7 @@ function Orders() {
             ) : (
               <tr>
                 <td
-                  colSpan="5"
+                  colSpan="6"
                   style={{
                     textAlign: "center",
                     padding: "15px",

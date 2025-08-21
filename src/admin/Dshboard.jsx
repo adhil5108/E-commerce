@@ -4,6 +4,21 @@ import Navbar from '../components/navbar';
 import Footer from '../components/Footer';
 import { NavLink } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import { Bar } from 'react-chartjs-2'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js'
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
+
+
+
 function Dshboard() {
   
   let [users,setusers]=useState([])
@@ -79,27 +94,10 @@ function Dshboard() {
           </div>
         </div>
 
-       
-        <div style={{ display: "flex", justifyContent: "center", margin: "30px" }}>
-          <NavLink 
-            to="/admin/addproduct" 
-            style={{
-              background: "transparent",
-              border: "2px solid #b8860b", 
-              color: "#b8860b",
-              padding: "10px 20px",
-              borderRadius: "8px",
-              fontWeight: "600",
-              textDecoration: "none",
-              transition: "all 0.3s ease-in-out"
-            }}>
-             Add Product
-          </NavLink>
-        </div>
       </div>
 
     </>
   )
 }
 
-export default Dshboard;
+export default Dshboard

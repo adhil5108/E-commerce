@@ -33,7 +33,8 @@ function Profile() {
 
   function logout() {
     localStorage.clear()
-    navigate('/login',{replace:true})
+    navigate('/',{replace:true})
+    window.location.reload()
   }
 
   let data = order.filter((or) => or.userid === localStorage.getItem("id"))
