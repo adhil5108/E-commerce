@@ -15,11 +15,11 @@ function Allcollections() {
   const [newdata, setnewData] = useState([])
   const [brandFilter, setBrandFilter] = useState("")
   const [wishlist, setWishlist] = useState([])
-  let [users,setusers]=useState([])
+  let [users, setusers] = useState([])
 
-let navigate=useNavigate()
+  let navigate = useNavigate()
 
-  useEffect(()=>{
+  useEffect(() => {
     axios
       .get("http://localhost:4000/products")
       .then((response) => {
@@ -35,7 +35,7 @@ let navigate=useNavigate()
         .then(res => setWishlist(res.data))
         .catch(err => console.error(err))
     }
-       axios
+    axios
       .get("http://localhost:4000/users")
       .then((response) => {
         setusers(response.data)
@@ -45,8 +45,6 @@ let navigate=useNavigate()
       })
 
   }, [])
- 
- let user = users.find((e) => String(e.id) === String(localStorage.getItem("id")))
 
 
   function inputstore(e) {
@@ -174,7 +172,7 @@ let navigate=useNavigate()
               if (e.key === "Enter" || e.key) {
                 click()
               }
-            }} placeholder="search products... "/>
+            }} placeholder="search products... " />
           <button
             style={{
               height: "40px",
@@ -235,7 +233,7 @@ let navigate=useNavigate()
           }}>
           {displayProducts.length > 0 ? (
             displayProducts.map((product, index) => (
-              product.status==="available"&&
+              product.status === "available" &&
               <div
                 key={index}
                 style={{
@@ -271,7 +269,7 @@ let navigate=useNavigate()
                     fontSize: "20px",
                     cursor: "pointer",
                   }}
-                  
+
                   onClick={localStorage.getItem("id") ? (e) => wish(product, e) : () => toast.info(
                     <div>
                       Please log in first!{" "}
@@ -369,14 +367,14 @@ let navigate=useNavigate()
                       borderRadius: "5px",
                       fontWeight: "bold",
                       cursor: "pointer",
-                    }} onClick={()=>navigate(`/allcollection/${product.id}`)}>
+                    }} onClick={() => navigate(`/allcollection/${product.id}`)}>
                     View more
                   </button>
                 </div>
               </div>
             ))
           ) : (
-            idata&&displayProducts.length===0&& <h2 style={{ color: "#888" }}>No products found</h2>
+            idata && displayProducts.length === 0 && <h2 style={{ color: "#888" }}>No products found</h2>
           )}
         </div>
       </section>

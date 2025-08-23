@@ -3,11 +3,13 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../components/navbar";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate ,NavLink} from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 
 function Displaypro() {
   let [prod, setProd] = useState([])
+  let [search, setsearch] = useState('')
+  let [filter, setfilter] = useState('')
   const [currentPage, setCurrentPage] = useState(0)
   const productsPerPage = 10
 
@@ -29,6 +31,8 @@ function Displaypro() {
       .catch((err) => console.error(err))
   }
 
+
+
   function inactive(p) {
     if (p.status === "available") {
       axios
@@ -38,7 +42,7 @@ function Displaypro() {
             prev.map((item) =>
               item.id === p.id ? { ...item, status: "not available" } : item
             )
-          );
+          )
         })
         .catch((err) => console.error(err))
     } else if (p.status === "not available") {
@@ -55,9 +59,29 @@ function Displaypro() {
     }
   }
 
+  let filteredProducts = prod.filter((p) =>
+    p.title.toLowerCase().includes(search.toLowerCase()) || p.brand.toLowerCase().includes(search.toLowerCase())
+  )
+
+  if (filter === "all") {
+    filteredProducts = prod
+  }
+  else if (filter === "available") {
+    filteredProducts = prod.filter((p) => {
+      return p.status === "available"
+    })
+  }
+
+  else if (filter === "not available") {
+    filteredProducts = prod.filter((p) => {
+      return p.status === "not available"
+    })
+  }
+
+
   const offset = currentPage * productsPerPage
-  const currentProducts = prod.slice(offset, offset + productsPerPage)
-  const pageCount = Math.ceil(prod.length / productsPerPage)
+  const currentProducts = filteredProducts.slice(offset, offset + productsPerPage)
+  const pageCount = Math.ceil(filteredProducts.length / productsPerPage)
 
   const handlePageClick = ({ selected }) => {
     setCurrentPage(selected)
@@ -85,10 +109,10 @@ function Displaypro() {
           padding: "30px",
           fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
           minHeight: "100vh",
-          marginTop:"100px"
+          marginTop: "100px"
         }}
       >
-        
+
         <div
           style={{
             display: "flex",
@@ -124,6 +148,39 @@ function Displaypro() {
             Add Product
           </NavLink>
         </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-start",
+            gap: "20px",
+            marginBottom: "20px",
+          }}>
+          <input
+            type="text"
+            placeholder="Search by title..."
+            style={{
+              padding: "10px",
+              borderRadius: "6px",
+              border: "1px solid #ccc",
+              width: "250px",
+            }}
+            value={search}
+            onChange={(e) => setsearch(e.target.value)} />
+
+          <select
+            style={{
+              padding: "10px",
+              borderRadius: "6px",
+              border: "1px solid #ccc",
+            }}
+            value={filter}
+            onChange={(e) => setfilter(e.target.value)} >
+            <option value="all" >All</option>
+            <option value="available" >Active</option>
+            <option value="not available">Not Active</option>
+          </select>
+        </div>
+
 
         <div
           style={{
@@ -132,16 +189,14 @@ function Displaypro() {
             borderRadius: "12px",
             boxShadow: "0 6px 18px rgba(0,0,0,0.08)",
             border: "1px solid #f5deb3",
-          }}
-        >
+          }}>
           <table
             style={{
               width: "100%",
               borderCollapse: "collapse",
               borderRadius: "12px",
               overflow: "hidden",
-            }}
-          >
+            }}>
             <thead>
               <tr
                 style={{
@@ -149,8 +204,7 @@ function Displaypro() {
                   color: "#b8860b",
                   textAlign: "center",
                   borderBottom: "2px solid #f0e68c",
-                }}
-              >
+                }}>
                 <th style={{ padding: "14px" }}>ID</th>
                 <th style={{ padding: "14px" }}>Image</th>
                 <th style={{ padding: "14px" }}>Title</th>
@@ -174,8 +228,7 @@ function Displaypro() {
                   }
                   onMouseLeave={(e) =>
                     (e.currentTarget.style.background = "transparent")
-                  }
-                >
+                  }>
                   <td style={{ padding: "12px", textAlign: "center" }}>{p.id}</td>
                   <td style={{ padding: "12px", textAlign: "center" }}>
                     {p.image ? (
@@ -188,8 +241,7 @@ function Displaypro() {
                           objectFit: "cover",
                           borderRadius: "8px",
                           border: "2px solid #b8860b",
-                        }}
-                      />
+                        }} />
                     ) : (
                       <span style={{ color: "#bbb" }}>No Image</span>
                     )}
@@ -202,8 +254,7 @@ function Displaypro() {
                       color: "#666",
                       maxWidth: "280px",
                       textAlign: "left",
-                    }}
-                  >
+                    }}>
                     {p.description}
                   </td>
                   <td
@@ -211,8 +262,7 @@ function Displaypro() {
                       padding: "12px",
                       color: "#b8860b",
                       fontWeight: "700",
-                    }}
-                  >
+                    }}>
                     ${p.price}
                   </td>
                   <td
@@ -220,8 +270,7 @@ function Displaypro() {
                       padding: "12px",
                       color: p.status === "available" ? "green" : "red",
                       fontWeight: "500",
-                    }}
-                  >
+                    }}>
                     {p.status}
                   </td>
                   <td style={{ padding: "12px" }}>
@@ -230,8 +279,7 @@ function Displaypro() {
                         display: "flex",
                         flexDirection: "column",
                         gap: "8px",
-                      }}
-                    >
+                      }}>
                       <button
                         style={btnStyle()}
                         onMouseEnter={(e) => {
@@ -242,8 +290,7 @@ function Displaypro() {
                           e.currentTarget.style.background = "transparent";
                           e.currentTarget.style.color = "#b8860b";
                         }}
-                        onClick={() => navigate(`/admin/product/${p.id}`)}
-                      >
+                        onClick={() => navigate(`/admin/product/${p.id}`)}>
                         Edit
                       </button>
 
@@ -257,8 +304,7 @@ function Displaypro() {
                           e.currentTarget.style.background = "transparent";
                           e.currentTarget.style.color = "#b8860b";
                         }}
-                        onClick={() => dlt(p)}
-                      >
+                        onClick={() => dlt(p)}>
                         Delete
                       </button>
 
@@ -272,8 +318,7 @@ function Displaypro() {
                           e.currentTarget.style.background = "transparent";
                           e.currentTarget.style.color = "#b8860b";
                         }}
-                        onClick={() => inactive(p)}
-                      >
+                        onClick={() => inactive(p)}>
                         {p.status === "not available" ? "active" : "inactive"}
                       </button>
                     </div>
@@ -296,8 +341,7 @@ function Displaypro() {
           previousLinkClassName={""}
           nextClassName={""}
           nextLinkClassName={""}
-          activeClassName={"active"}
-        />
+          activeClassName={"active"} />
       </div>
 
       <ToastContainer position="top-right" style={{ top: "75px" }} autoClose={1000} />

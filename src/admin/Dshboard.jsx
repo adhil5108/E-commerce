@@ -1,21 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Navbar from '../components/navbar';
-import Footer from '../components/Footer';
-import { NavLink } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import { Bar } from 'react-chartjs-2'
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js'
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
+import { NavLink } from 'react-router-dom';
 
 
 
@@ -89,7 +76,7 @@ function Dshboard() {
             textAlign: 'center'
           }}>
             <h3>Total Income</h3>
-            <p style={{ fontSize: '24px', fontWeight: 'bold' }}>$ {income} </p>
+            <p style={{ fontSize: '24px', fontWeight: 'bold' }}>$ {income/ 1000000} Million</p>
             <NavLink to={'/admin/orders'} style={{textDecoration:"none"}}> click to see all orders </NavLink>
           </div>
         </div>

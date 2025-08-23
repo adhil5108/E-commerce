@@ -30,7 +30,7 @@ let role=localStorage.getItem("role")
         }
 
     return (
-        <section style={{ marginTop: "100px", display: "flex", flexDirection: "column",display:role==="user"?"block":"none" }}>
+        <section style={{ marginTop: "100px", display: "flex", flexDirection: "column",display:role==="user"||role ===null?"block":"none" }}>
             <h1 style={{ display: "flex", justifyContent: "center", fontSize: "50px", fontWeight: "100", fontFamily: "inherit" }}>New arrivals</h1>
 
 

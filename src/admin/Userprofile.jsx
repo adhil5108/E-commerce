@@ -164,7 +164,7 @@ function Userprofile() {
           ))
         )}
       </div>
-      <Footer/>
+    
       </>
   )
 }

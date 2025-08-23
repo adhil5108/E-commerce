@@ -30,12 +30,12 @@ let user={role:localStorage.getItem("role")}
     <>
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/register' element={ <Register /> } />
-        <Route path='/login' element={ <Login />} />
-        <Route path='/about' element={user?.role === "user"?<About />:<Notfound/>} />
-        <Route path='/allcollection' element={user?.role === "user"?<Allcollections />:<Notfound/>} />
-        <Route path='/allcollection/:productid' element={user?.role === "user"?<Productinfo />:<Notfound/>} />
-        <Route path='/brands' element={user?.role === "user"?<Brands />:<Notfound/>} />
+        <Route path='/register' element={!localStorage.getItem("id")? <Register /> :<Navigate to={'/'}/>}  />
+        <Route path='/login' element={!localStorage.getItem("id")? <Login />:<Navigate to={'/'}/>} />
+        <Route path='/about' element={user?.role === "user"||user?.role ===null?<About />:<Notfound/>} />
+        <Route path='/allcollection' element={user?.role === "user"||user?.role ===null?<Allcollections />:<Notfound/>} />
+        <Route path='/allcollection/:productid' element={user?.role === "user"||user?.role ===null?<Productinfo />:<Notfound/>} />
+        <Route path='/brands' element={user?.role === "user"||user?.role ===null?<Brands />:<Notfound/>} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/cart' element={user?.role === "user" ? <CartPage /> : <Notfound />} />
         <Route path='/checkout' element={user?.role === "user" ? <Checkout /> : <Notfound />} />
