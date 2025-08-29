@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { createContext, useEffect, useState } from "react"
 import axios from "axios"
 import { FaSearch } from "react-icons/fa"
 import { NavLink, useNavigate } from "react-router-dom"
@@ -9,43 +9,40 @@ import "react-toastify/dist/ReactToastify.css"
 import { FaHeart } from "react-icons/fa"
 import { ToastContainer } from "react-toastify"
 
+
+
 function Allcollections() {
   const [data, setData] = useState([])
   const [idata, setIdata] = useState("")
   const [newdata, setnewData] = useState([])
   const [brandFilter, setBrandFilter] = useState("")
   const [wishlist, setWishlist] = useState([])
-  let [users, setusers] = useState([])
+  const [cartItems, setCartItems] = useState([])
 
   let navigate = useNavigate()
 
   useEffect(() => {
-    axios
-      .get("http://localhost:4000/products")
-      .then((response) => {
-        setData(response.data)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+   
+    axios.get("http://localhost:4000/products")
+      .then((response) => setData(response.data))
+      .catch((error) => console.log(error))
 
     const userId = localStorage.getItem("id")
     if (userId) {
+   
       axios.get(`http://localhost:4000/wishlist?userid=${userId}`)
         .then(res => setWishlist(res.data))
         .catch(err => console.error(err))
+
+  
+      axios.get("http://localhost:4000/cart")
+        .then((response) => {
+          let response2 = response.data.filter((e) => String(e.userid) === String(userId))
+          setCartItems(response2)
+        })
+        .catch((error) => console.log(error))
     }
-    axios
-      .get("http://localhost:4000/users")
-      .then((response) => {
-        setusers(response.data)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-
   }, [])
-
 
   function inputstore(e) {
     setIdata(e.target.value)
@@ -54,7 +51,10 @@ function Allcollections() {
   function click() {
     let search = data
     if (idata) {
-      search = search.filter((p) => p.title.toLowerCase().includes(idata.toLowerCase()) || p.brand.toLowerCase().includes(idata.toLowerCase()))
+      search = search.filter((p) =>
+        p.title.toLowerCase().includes(idata.toLowerCase()) ||
+        p.brand.toLowerCase().includes(idata.toLowerCase())
+      )
     }
     if (brandFilter) {
       search = search.filter((p) => p.brand.toLowerCase() === brandFilter.toLowerCase())
@@ -85,7 +85,9 @@ function Allcollections() {
     let filtered = data
     if (idata) {
       filtered = filtered.filter(
-        (p) => p.title.toLowerCase().includes(idata.toLowerCase()) || p.brand.toLowerCase().includes(idata.toLowerCase())
+        (p) =>
+          p.title.toLowerCase().includes(idata.toLowerCase()) ||
+          p.brand.toLowerCase().includes(idata.toLowerCase())
       )
     }
     if (value) {
@@ -100,15 +102,21 @@ function Allcollections() {
     axios.get(`http://localhost:4000/cart?userid=${userId}&id=${product.id}`)
       .then((res) => {
         if (res.data.length > 0) {
-          toast.info(`${product.title} is already in your cart 🛒`)
-        } else {
-          axios.post('http://localhost:4000/cart', { ...product, quantity: 1, userid: userId })
+          const cart1 = res.data[0]
+          axios.patch(`http://localhost:4000/cart/${cart1.id}`, {
+            quantity: cart1.quantity + 1
+          })
             .then(() => {
-              toast.success(`${product.title} added to cart! 🛒`)
+              // toast.info("quantity added")
             })
-            .catch(err => {
-              console.error(err)
+            .catch(err => console.error(err))
+        } else {
+          axios.post("http://localhost:4000/cart", { ...product, quantity: 1, userid: userId })
+            .then(() => {
+              // toast.success(`${product.title} added to cart! 🛒`)
+              setCartItems(prev => [...prev, { ...product, quantity: 1, userid: userId }])
             })
+            .catch(err => console.error(err))
         }
       })
       .catch(err => {
@@ -129,21 +137,20 @@ function Allcollections() {
             .then(() => {
               setWishlist(prev => [...prev, product])
             })
-            .catch(err => {
-              console.error(err)
-            })
+            .catch(err => console.error(err))
         }
       })
-      .catch(err => {
-        console.error(err)
-      })
+      .catch(err => console.error(err))
   }
 
   const brands = [...new Set(data.map((item) => item.brand))]
 
   return (
     <>
-      <Navbar />
+      
+        <Navbar />
+    
+
       <section
         style={{
           marginTop: "100px",
@@ -165,14 +172,15 @@ function Allcollections() {
               border: "none",
               padding: "15px",
               boxShadow: "10px 4px 12px rgba(0, 0, 0, 0.1)",
-
             }}
             onChange={inputstore}
             onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key) {
+              if (e.key === "Enter") {
                 click()
               }
-            }} placeholder="search products... " />
+            }}
+            placeholder="search products..."
+          />
           <button
             style={{
               height: "40px",
@@ -182,7 +190,8 @@ function Allcollections() {
               display: "flex",
               alignItems: "center",
               background: "white",
-              boxShadow: "10px 4px 12px rgba(0, 0, 0, 0.1)", marginRight: "60px"
+              boxShadow: "10px 4px 12px rgba(0, 0, 0, 0.1)",
+              marginRight: "60px",
             }}
             onClick={click}>
             <FaSearch />
@@ -197,7 +206,7 @@ function Allcollections() {
               backgroundColor: "white",
               paddingLeft: "10px",
               paddingRight: "10px",
-              border: "none"
+              border: "none",
             }}
             onChange={handleSort}>
             <option value="low-high">Price: Low to High</option>
@@ -214,7 +223,7 @@ function Allcollections() {
               backgroundColor: "white",
               paddingLeft: "10px",
               paddingRight: "10px",
-              border: "none"
+              border: "none",
             }}
             onChange={handleBrandFilter}>
             <option value="">All Brands</option>
@@ -243,11 +252,10 @@ function Allcollections() {
                   boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
                   overflow: "hidden",
                   margin: "20px",
-                  fontFamily:
-                    "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+                  fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
                   display: "flex",
                   flexDirection: "column",
-                  position: "relative"
+                  position: "relative",
                 }}>
                 <img
                   src={product.image}
@@ -258,19 +266,18 @@ function Allcollections() {
                     objectFit: "cover",
                     borderTopLeftRadius: "12px",
                     borderTopRightRadius: "12px",
-                  }} />
+                  }}
+                />
                 <FaHeart
                   style={{
                     position: "absolute",
                     top: "10px",
                     right: "10px",
-                    color: wishlist.some(item => String(item.id) === String(product.id)) ? "red" : "white",
-
+                    color: wishlist.find(item => String(item.id) === String(product.id)) ? "red" : "white",
                     fontSize: "20px",
                     cursor: "pointer",
                   }}
-
-                  onClick={localStorage.getItem("id") ? (e) => wish(product, e) : () => toast.info(
+                  onClick={localStorage.getItem("id") ? () => wish(product) : () => toast.info(
                     <div>
                       Please log in first!{" "}
                       <NavLink
@@ -286,49 +293,27 @@ function Allcollections() {
                   )}
                 />
                 <div style={{ padding: "15px", flexGrow: 1 }}>
-                  <h3
-                    style={{
-                      margin: "10px 0 5px",
-                      fontWeight: "bold",
-                      fontSize: "1.3rem",
-                    }}>
+                  <h3 style={{ margin: "10px 0 5px", fontWeight: "bold", fontSize: "1.3rem" }}>
                     {product.title}
                   </h3>
-                  <h4
-                    style={{
-                      margin: "0 0 10px",
-                      fontWeight: "600",
-                      color: "#555",
-                      fontStyle: "italic",
-                    }}>
+                  <h4 style={{ margin: "0 0 10px", fontWeight: "600", color: "#555", fontStyle: "italic" }}>
                     {product.brand}
                   </h4>
-                  <p
-                    style={{
-                      color: "#555",
-                      fontSize: "0.9rem",
-                      minHeight: "48px",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      marginBottom: "15px",
-                    }}>
+                  <p style={{
+                    color: "#555",
+                    fontSize: "0.9rem",
+                    minHeight: "48px",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    marginBottom: "15px",
+                  }}>
                     {product.description}
                   </p>
-                  <p
-                    style={{
-                      fontWeight: "bold",
-                      color: "#2c7a2c",
-                      fontSize: "1.2rem",
-                    }}>
+                  <p style={{ fontWeight: "bold", color: "#2c7a2c", fontSize: "1.2rem" }}>
                     ${product.price}
                   </p>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "15px",
-                    padding: "0 15px 15px",
-                  }}>
+                <div style={{ display: "flex", gap: "15px", padding: "0 15px 15px" }}>
                   <button
                     style={{
                       flex: 1,
@@ -338,7 +323,7 @@ function Allcollections() {
                       border: "none",
                       borderRadius: "5px",
                       fontWeight: "bold",
-                      cursor: "pointer"
+                      cursor: "pointer",
                     }}
                     onClick={localStorage.getItem("id") ? () => cart(product) : () => toast.info(
                       <div>
@@ -367,7 +352,8 @@ function Allcollections() {
                       borderRadius: "5px",
                       fontWeight: "bold",
                       cursor: "pointer",
-                    }} onClick={() => navigate(`/allcollection/${product.id}`)}>
+                    }}
+                    onClick={() => navigate(`/allcollection/${product.id}`)}>
                     View more
                   </button>
                 </div>

@@ -3,10 +3,10 @@
     {
       "id": "1",
       "title": "Royal Heritage Chronograph",
-      "brand": "Rolex",
+      "brand": "rolex",
       "description": "A timeless chronograph crafted in 18k gold with unmatched precision.",
       "price": 24500,
-      "status": "not available",
+      "status": "available",
       "image": "https://images.unsplash.com/photo-1730757679771-b53e798846cf?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzZ8fGx1eHVyeSUyMHdhdGNofGVufDB8fDB8fHww"
     },
     {
@@ -42,7 +42,7 @@
       "brand": "Cartier",
       "description": "Iconic square case with Roman numerals in polished steel.",
       "price": 7200,
-      "status": "not available",
+      "status": "available",
       "image": "https://images.unsplash.com/photo-1634140704051-58a787556cd1?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
@@ -60,7 +60,7 @@
       "brand": "Hublot",
       "description": "Bold skeleton dial with in-house chronograph movement.",
       "price": 18900,
-      "status": "not available",
+      "status": "available",
       "image": "https://images.unsplash.com/photo-1641737984218-13488cf3c024?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTl8fGx1eHVyeSUyMHdhdGNofGVufDB8fDB8fHww"
     },
     {
@@ -114,7 +114,7 @@
       "brand": "Rolex",
       "description": "Refined elegance with a guilloché dial and leather strap.",
       "price": 15000,
-      "status": "not available",
+      "status": "available",
       "image": "https://cdn.pixabay.com/photo/2019/03/18/12/41/mens-4063031_1280.jpg"
     },
     {
@@ -132,7 +132,7 @@
       "brand": "Cartier",
       "description": "Slim rectangular case with timeless Parisian charm.",
       "price": 9200,
-      "status": "not available",
+      "status": "available",
       "image": "https://images.unsplash.com/photo-1598309255528-fc495f54fadd?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTU2fHxsdXh1cnklMjB3YXRjaHxlbnwwfHwwfHx8MA%3D%3D"
     },
     {
@@ -159,7 +159,7 @@
       "brand": "Rolex",
       "description": "President bracelet with day and date complication in gold.",
       "price": 37000,
-      "status": "not available",
+      "status": "available",
       "image": "https://images.pexels.com/photos/2494608/pexels-photo-2494608.jpeg?_gl=1*gzvta9*_ga*NTExOTk1NjAuMTc0NzA0MzkzMA..*_ga_8JE65Q40S6*czE3NTQ4MTE0NDEkbzIkZzEkdDE3NTQ4MTE2ODIkajE0JGwwJGgw"
     },
     {
@@ -186,7 +186,7 @@
       "brand": "Richard Mille",
       "description": "Avant-garde skeletonized chronograph with tonneau case.case",
       "price": 185000,
-      "status": "not available",
+      "status": "available",
       "image": "https://images.stockcake.com/public/d/d/9/dd9931a8-8bf2-47df-baa8-3033216407e6/premium-black-chronograph-stockcake.jpg"
     },
     {
@@ -213,7 +213,7 @@
       "brand": "Vacheron Constantin",
       "description": "Luxury sports chronograph with interchangeable straps.",
       "price": 32000,
-      "status": "not available",
+      "status": "available",
       "image": "https://images.stockcake.com/public/d/b/5/db51ad1d-a9be-4145-9629-8ae652051d74/elegant-gold-watch-stockcake.jpg"
     },
     {
@@ -240,7 +240,7 @@
       "brand": "Ulysse Nardin",
       "description": "Nautical-inspired design with in-house chronometer movement.",
       "price": 11800,
-      "status": "not available",
+      "status": "available",
       "image": "https://images.unsplash.com/photo-1748327929572-2ccf5716d3b9?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
@@ -258,7 +258,7 @@
       "brand": "Vacheron Constantin",
       "description": "Displays 37 time zones in a luxurious dial layout.",
       "price": 43500,
-      "status": "not available",
+      "status": "available",
       "image": "https://cdn.pixabay.com/photo/2016/06/16/17/24/watch-1461795_1280.jpg"
     },
     {
@@ -289,7 +289,7 @@
       "email": "v200@gmail.com",
       "phone": "7994105877",
       "role": "user",
-      "status": "blocked",
+      "status": "active",
       "password": "12341234"
     },
     {
@@ -329,7 +329,7 @@
       "email": "salman9999@gmail.com",
       "phone": "1234567890",
       "role": "user",
-      "status": "active",
+      "status": "blocked",
       "password": "1234567890"
     },
     {
@@ -359,7 +359,7 @@
       "email": "v200gdbdf@gmail.com",
       "phone": "1234567890",
       "role": "user",
-      "status": "active",
+      "status": "blocked",
       "password": "1234567"
     },
     {
@@ -369,7 +369,7 @@
       "email": "vvfvf@gmail.com",
       "phone": "7994105877",
       "role": "user",
-      "status": "active",
+      "status": "blocked",
       "password": "1234567"
     },
     {
@@ -419,7 +419,7 @@
       "email": "svrbrn@gmail.com",
       "phone": "1234567890",
       "role": "user",
-      "status": "blocked",
+      "status": "active",
       "password": "123456"
     },
     {
@@ -453,7 +453,41 @@
       "password": "admin23"
     }
   ],
-  "cart": [],
+  "cart": [
+    {
+      "id": "3",
+      "title": "Master Ultra Thin Perpetual",
+      "brand": "Jaeger-LeCoultre",
+      "description": "Ultra-thin perpetual calendar watch with sapphire crystal caseback.",
+      "price": 21500,
+      "status": "available",
+      "image": "https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Sites-titan-master-catalog/default/dw091a9211/images/Titan/Catalog/1639SM01_1.jpg?sw=600&sh=600",
+      "quantity": 2,
+      "userid": "1"
+    },
+    {
+      "id": "7",
+      "title": "Big Bang Unico",
+      "brand": "Hublot",
+      "description": "Bold skeleton dial with in-house chronograph movement.",
+      "price": 18900,
+      "status": "available",
+      "image": "https://images.unsplash.com/photo-1641737984218-13488cf3c024?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTl8fGx1eHVyeSUyMHdhdGNofGVufDB8fDB8fHww",
+      "quantity": 1,
+      "userid": "1"
+    },
+    {
+      "id": "11",
+      "title": "Royal Oak Selfwinding",
+      "brand": "Audemars Piguet",
+      "description": "Legendary octagonal bezel with ‘Tapisserie’ patterned dial.",
+      "price": 42000,
+      "status": "available",
+      "image": "https://images.unsplash.com/photo-1606391376558-31313ada3aa3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODh8fGx1eHVyeSUyMHdhdGNofGVufDB8fDB8fHww",
+      "quantity": 1,
+      "userid": "1"
+    }
+  ],
   "orders": [
     {
       "id": "7",
@@ -1992,18 +2026,31 @@
       "image": "https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Sites-titan-master-catalog/default/dw091a9211/images/Titan/Catalog/1639SM01_1.jpg?sw=600&sh=600",
       "userid": "7450",
       "quantity": 1
+    },
+    {
+      "id": "4",
+      "title": "Seamaster Aqua Terra",
+      "brand": "Omega",
+      "description": "Elegant yet sporty design with 150m water resistance.",
+      "price": 6500,
+      "status": "available",
+      "image": "https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Sites-titan-master-catalog/default/dw5b56a218/images/Titan/Catalog/1639SM02_1.jpg?sw=600&sh=600",
+      "quantity": 1,
+      "userid": "1"
+    },
+    {
+      "id": "9",
+      "title": "Reverso Classic Duoface ",
+      "brand": "Jaeger-LeCoultre",
+      "description": "Two dials in one watch with Art Deco elegance.\n\n",
+      "price": 14500,
+      "status": "available",
+      "image": "https://images.unsplash.com/photo-1620625515032-6ed0c1790c75?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "quantity": 1,
+      "userid": "1"
     }
   ],
   "wishlist": [
-    {
-      "id": "6",
-      "title": "Overseas Dual Time",
-      "brand": "Vacheron Constantin",
-      "description": "Dual time functionality in a refined, travel-friendly design.",
-      "price": 29500,
-      "image": "https://images.unsplash.com/photo-1572020553120-3991e7b8b015?q=80&w=2029&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "userid": "0c64"
-    },
     {
       "id": "11",
       "title": "Royal Oak Selfwinding",
@@ -2014,16 +2061,6 @@
       "userid": "0c64"
     },
     {
-      "id": "2",
-      "title": "Classic Moonphase Elegance",
-      "brand": "Patek Philippe",
-      "description": "Exquisite moonphase complication in a handcrafted rose gold case.",
-      "price": 38500,
-      "status": "available",
-      "image": "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQipoiitLuzaFhFZrulOI2LQf28jCrK-dSpJsRCNzDZ8CXfoLpG1nWV0A3N8-zNFb6Ffae3HNkWs9DFxHDshwkf1j3-0yB5nmHLLQlN6PF-",
-      "userid": "1"
-    },
-    {
       "id": "18",
       "title": "Day-Date 40",
       "brand": "Rolex",
@@ -2032,6 +2069,16 @@
       "status": "available",
       "image": "https://images.pexels.com/photos/2494608/pexels-photo-2494608.jpeg?_gl=1*gzvta9*_ga*NTExOTk1NjAuMTc0NzA0MzkzMA..*_ga_8JE65Q40S6*czE3NTQ4MTE0NDEkbzIkZzEkdDE3NTQ4MTE2ODIkajE0JGwwJGgw",
       "userid": "7450"
+    },
+    {
+      "id": "6",
+      "title": "Overseas Dual Time",
+      "brand": "Vacheron Constantin",
+      "description": "Dual time functionality in a refined, travel-friendly design.",
+      "price": 29500,
+      "status": "available",
+      "image": "https://images.unsplash.com/photo-1572020553120-3991e7b8b015?q=80&w=2029&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "userid": "1"
     }
   ]
 }

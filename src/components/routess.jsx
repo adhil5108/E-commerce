@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React  from 'react'
 import { Route, Routes, Navigate } from 'react-router-dom'
 import Register from './Register'
 import Login from './login'
@@ -14,7 +14,6 @@ import Success from './Success'
 import Wishlist from './Wishlist'
 import Notfound from './Notfound'
 import Dshboard from '../admin/Dshboard'
-import axios from 'axios'
 import Users from '../admin/Users'
 import Userprofile from '../admin/Userprofile'
 import Products from '../admin/Products'
@@ -23,7 +22,6 @@ import Displaypro from '../admin/Displaypro'
 import Edit from '../admin/edit'
 
 function Routess() {
-
 let user={role:localStorage.getItem("role")}
 
   return (

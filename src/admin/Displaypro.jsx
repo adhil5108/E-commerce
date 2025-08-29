@@ -349,4 +349,4 @@ function Displaypro() {
   )
 }
 
-export default Displaypro;
+export default Displaypro

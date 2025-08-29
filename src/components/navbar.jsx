@@ -13,7 +13,8 @@ function Navbar() {
   let [users, setuser] = useState([])
   let [bar, setbar] = useState(false)
 
-  useEffect(() => {
+useEffect(() => {
+  const fetchData = () => {
     axios.get("http://localhost:4000/wishlist")
       .then((res) => setwish(res.data))
       .catch((err) => console.error(err))
@@ -25,7 +26,14 @@ function Navbar() {
     axios.get("http://localhost:4000/users")
       .then((res) => setuser(res.data))
       .catch((err) => console.error(err))
-  }, [])
+  }
+
+  fetchData()
+
+  // const interval = setInterval(fetchData, 1000)
+  // return () => clearInterval(interval)
+}, [])
+
 
   let navigate = useNavigate()
   const logged = !!localStorage.getItem("name")
@@ -38,7 +46,7 @@ function Navbar() {
 
   let user = users.find((e) => e.id == localStorage.getItem("id"))
 
-  
+
   return (
     <>
       <header
