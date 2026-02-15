@@ -1,12 +1,36 @@
-# React + Vite
+# 🛒 E-Commerce Frontend (React)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A responsive e-commerce frontend application built with **React** that integrates with a Spring Boot backend API.
 
-Currently, two official plugins are available:
+The application allows users to browse products, manage a shopping cart, and complete checkout workflows through API-driven data handling.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+##  Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Product browsing and search
+- Shopping cart management
+- Checkout workflow
+- API-based data fetching
+- Responsive UI design
+
+---
+
+##  Tech Stack
+
+- React
+- JavaScript (ES6+)
+- Tailwind CSS
+- React Router
+- REST API Integration
+- JSON server
+
+---
+
+##  Running Locally
+
+```bash
+git clone https://github.com/adhil5108/E-commerce.git
+cd E-commerce
+npm install
+npm start
